@@ -8,12 +8,15 @@ namespace EntityLayer.Concrete
 {
     public class Category
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
 
-        public int CategoryID {  get; set; }
+        // Alt kategori mantığı için kendi kendine ilişki
+        public int? ParentId { get; set; }
+        public Category ParentCategory { get; set; }
+        public ICollection<Category> SubCategories { get; set; }
 
-        public string CategoryName { get; set; }
-
-        public string CategoryDescription { get; set; }
-        public bool CategoryStatus { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace EntityLayer.Concrete
 {
-    public class Comment
+    public class ProductImage
     {
         public int Id { get; set; }
-        public string Content { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public string ImageUrl { get; set; } // Resim dosya yolu veya URL'i
+        public bool IsMainInfo { get; set; } // Kapak fotoğrafı mı?
 
         public int ProductId { get; set; }
         public Product Product { get; set; }
-
-        public int UserId { get; set; } // Yorumu yapan
-        public User User { get; set; }
     }
+}
