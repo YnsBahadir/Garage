@@ -2,19 +2,42 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Concrete
 {
-    public class Context: DbContext
+    public class Context : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=BARAYA; database=GarageDb; integrated security=true; TrustServerCertificate=true;");
+            // Senin sunucu ayarların (Aynen korudum)
+            optionsBuilder.UseSqlServer("server=BARAYA;database=GarageDb;integrated security=true;TrustServerCertificate=true;");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // İŞTE EKSİK OLAN KISIM BURASIYDI (Bu blok hatayı çözer)
+
+            // Gönderici silinirse mesajı silme, sadece göndereni boş (null) yap
+            modelBuilder.Entity<Message2>()
+                .HasOne(x => x.SenderUser)
+                .WithMany(y => y.WriterSender)
+                .HasForeignKey(z => z.SenderID)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            // Alıcı silinirse mesajı silme, sadece alıcıyı boş (null) yap
+            modelBuilder.Entity<Message2>()
+                .HasOne(x => x.ReceiverUser)
+                .WithMany(y => y.WriterReceiver)
+                .HasForeignKey(z => z.ReceiverID)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+        // Tabloların
         public DbSet<About> Abouts { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
@@ -25,6 +48,5 @@ namespace DataAccessLayer.Concrete
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Offer> Offers { get; set; }
         public DbSet<Product> Products { get; set; }
-
     }
 }

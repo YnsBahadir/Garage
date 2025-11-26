@@ -142,25 +142,21 @@ namespace DataAccessLayer.Migrations
                     Subject = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     MessageDetails = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
                     MessageDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    MessageStatus = table.Column<bool>(type: "bit", nullable: false),
-                    SenderUserAppUserID = table.Column<int>(type: "int", nullable: false),
-                    ReceiverUserAppUserID = table.Column<int>(type: "int", nullable: false)
+                    MessageStatus = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Message2s", x => x.MessageID);
                     table.ForeignKey(
-                        name: "FK_Message2s_AppUsers_ReceiverUserAppUserID",
-                        column: x => x.ReceiverUserAppUserID,
+                        name: "FK_Message2s_AppUsers_ReceiverID",
+                        column: x => x.ReceiverID,
                         principalTable: "AppUsers",
-                        principalColumn: "AppUserID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "AppUserID");
                     table.ForeignKey(
-                        name: "FK_Message2s_AppUsers_SenderUserAppUserID",
-                        column: x => x.SenderUserAppUserID,
+                        name: "FK_Message2s_AppUsers_SenderID",
+                        column: x => x.SenderID,
                         principalTable: "AppUsers",
-                        principalColumn: "AppUserID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "AppUserID");
                 });
 
             migrationBuilder.CreateTable(
@@ -230,14 +226,14 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Message2s_ReceiverUserAppUserID",
+                name: "IX_Message2s_ReceiverID",
                 table: "Message2s",
-                column: "ReceiverUserAppUserID");
+                column: "ReceiverID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Message2s_SenderUserAppUserID",
+                name: "IX_Message2s_SenderID",
                 table: "Message2s",
-                column: "SenderUserAppUserID");
+                column: "SenderID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Offers_AppUserID",

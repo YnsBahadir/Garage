@@ -37,5 +37,10 @@ namespace EntityLayer.Concrete
 
         // Kullanıcının yaptığı teklifler/mesajlar
         public List<Offer> Offers { get; set; }
+
+        public virtual ICollection<Message2> WriterSender { get; set; }
+
+        // Kullanıcının ALDIĞI mesajlar listesi
+        public virtual ICollection<Message2> WriterReceiver { get; set; }
     }
 }

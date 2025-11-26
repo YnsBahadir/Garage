@@ -239,13 +239,7 @@ namespace DataAccessLayer.Migrations
                     b.Property<int?>("ReceiverID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReceiverUserAppUserID")
-                        .HasColumnType("int");
-
                     b.Property<int?>("SenderID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SenderUserAppUserID")
                         .HasColumnType("int");
 
                     b.Property<string>("Subject")
@@ -255,9 +249,9 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("MessageID");
 
-                    b.HasIndex("ReceiverUserAppUserID");
+                    b.HasIndex("ReceiverID");
 
-                    b.HasIndex("SenderUserAppUserID");
+                    b.HasIndex("SenderID");
 
                     b.ToTable("Message2s");
                 });
@@ -432,16 +426,12 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("EntityLayer.Concrete.Message2", b =>
                 {
                     b.HasOne("EntityLayer.Concrete.AppUser", "ReceiverUser")
-                        .WithMany()
-                        .HasForeignKey("ReceiverUserAppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("WriterReceiver")
+                        .HasForeignKey("ReceiverID");
 
                     b.HasOne("EntityLayer.Concrete.AppUser", "SenderUser")
-                        .WithMany()
-                        .HasForeignKey("SenderUserAppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("WriterSender")
+                        .HasForeignKey("SenderID");
 
                     b.Navigation("ReceiverUser");
 
@@ -489,6 +479,10 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Offers");
 
                     b.Navigation("Products");
+
+                    b.Navigation("WriterReceiver");
+
+                    b.Navigation("WriterSender");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.Category", b =>
