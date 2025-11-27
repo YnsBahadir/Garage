@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Abstract
 {
-    public interface IAdminDal
+    public interface IAdminDal : IGenericDal<Admin>
     {
-        List<Admin> ListAllAdmin();
-        void AddAdmin(Admin admin);
-        void DeleteAdmin(Admin admin);
-        void UpdateAdmin(Admin admin);
-        Admin GetById(int id);
     }
 }
