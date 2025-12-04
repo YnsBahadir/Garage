@@ -24,9 +24,12 @@
 
                 @if (ViewBag.kategoriler != null)
                 {
+                    <a href="/Product/Index" class="list-group-item list-group-item-action fw-bold">
+                        Tüm Ürünler
+                    </a>
                     @foreach (var item in (List<Category>)ViewBag.kategoriler)
                     {
-                        <a href="#" class="list-group-item list-group-item-action">
+                        <a href="/Product/Index?id=@item.CategoryID" class="list-group-item list-group-item-action">
                             @item.CategoryName
                         </a>
                     }

@@ -10,7 +10,6 @@ namespace BusinessLayer.Abstract
 {
     public interface IProductService : IGenericService<Product>
     {
-        // İleride buraya "Kategoriye göre ürün getir" gibi özel metodlar ekleyeceğiz.
-        // List<Product> GetProductsByCategory(int id); 
+        List<Product> GetProductsByCategory(int id); 
     }
 }

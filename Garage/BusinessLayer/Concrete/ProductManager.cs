@@ -45,5 +45,10 @@ namespace BusinessLayer.Concrete
         {
             _productDal.Update(t);
         }
+
+        public List<Product> GetProductsByCategory(int id)
+        {
+            return _productDal.GetListAll().Where(x => x.CategoryID == id).ToList();
+        }
     }
 }
