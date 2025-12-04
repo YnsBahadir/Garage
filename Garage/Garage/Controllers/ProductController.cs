@@ -1,62 +1,100 @@
 ﻿using BusinessLayer.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering; // SelectListItem için bu kütüphane şart!
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Garage.Controllers
 {
     public class ProductController : Controller
     {
-        // 1. Adım: Servisi çağırıyoruz (Constructor Injection)
         private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService; // 1. YENİ EKLENEN
 
-        public ProductController(IProductService productService)
+        // 2. CONSTRUCTOR GÜNCELLENDİ
+        public ProductController(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
+            _categoryService = categoryService;
         }
 
-        // 2. Adım: Listeleme Sayfası
         public IActionResult Index()
         {
-            // Business katmanındaki GetList metodunu çağırıyoruz.
             var values = _productService.GetList();
-            return View(values); // Verileri sayfaya gönderiyoruz.
+            ViewBag.kategoriler = _categoryService.GetList();
+            return View(values);
         }
 
-        //Index Altına ekledim
-        // 1. Sayfayı Yükleyen Metot (GET)
         [HttpGet]
         public IActionResult AddProduct()
         {
-            // İleride buraya Kategorileri de göndereceğiz (Dropdown için)
-            // Şimdilik sadece boş sayfayı açsın.
+            List<SelectListItem> categoryValues = (from x in _categoryService.GetList()
+                                                   select new SelectListItem
+                                                   {
+                                                       Text = x.CategoryName, // Görünen İsim (Elektronik)
+                                                       Value = x.CategoryID.ToString() // Arka plandaki ID (1)
+                                                   }).ToList();
+
+            // 2. Bu listeyi 'v' adındaki bir çantaya (ViewBag) koyuyoruz
+            ViewBag.v = categoryValues;
+
+            // 3. Çantayla beraber sayfayı açıyoruz
             return View();
         }
+
 
         // 2. Veriyi Kaydeden Metot (POST)
         [HttpPost]
         public IActionResult AddProduct(EntityLayer.Concrete.Product p)
         {
-            // Formdan gelen veriler 'p' nesnesinin içine dolmuş olarak gelir.
-
-            p.Date = DateTime.Now; // İlan tarihini şu an yap
-            p.ProductStatus = true; // İlan aktif olsun
-            p.IsSold = false; // Henüz satılmadı
-            p.ViewCount = 0; // Görüntülenme 0
-
-            // AppUserID ve CategoryID'yi şimdilik elle veriyoruz (İleride düzelteceğiz)
+            p.Date = System.DateTime.Now;
+            p.ProductStatus = true;
+            p.IsSold = false;
+            p.ViewCount = 0;
             p.AppUserID = 1;
-            p.CategoryID = 1;
 
-            _productService.TAdd(p); // KAYDETME İŞLEMİ
+            // p.CategoryID = 1;  <-- ARTIK BU SATIRI SİLİYORUZ! Seçim formdan gelecek.
 
-            return RedirectToAction("Index"); // Kaydettikten sonra listeye dön
+            _productService.TAdd(p);
+            return RedirectToAction("Index");
         }
 
         //DeleteProduct
         public IActionResult DeleteProduct(int id)
         {
-            var value = _productService.GetById(id); // 1. Ürünü bul
-            _productService.TDelete(value);          // 2. Ürünü sil
-            return RedirectToAction("Index");        // 3. Listeye dön
+            var value = _productService.GetById(id);
+            _productService.TDelete(value);
+            return RedirectToAction("Index");
+        }
+        //UpdateProduct
+        [HttpGet]
+        public IActionResult EditProduct(int id)
+        {
+            // AYNI İŞLEMİ GÜNCELLEME SAYFASI İÇİN DE YAPIYORUZ
+            List<SelectListItem> categoryValues = (from x in _categoryService.GetList()
+                                                   select new SelectListItem
+                                                   {
+                                                       Text = x.CategoryName,
+                                                       Value = x.CategoryID.ToString()
+                                                   }).ToList();
+            ViewBag.v = categoryValues;
+
+            var value = _productService.GetById(id);
+            return View(value);
+        }
+
+        [HttpPost]
+        public IActionResult EditProduct(EntityLayer.Concrete.Product p)
+        {
+            p.Date = System.DateTime.Now;
+            p.ProductStatus = true;
+            p.AppUserID = 1;
+            // p.CategoryID satırını siliyoruz, formdan gelecek.
+
+            _productService.TUpdate(p);
+            return RedirectToAction("Index");
+
         }
     }
 }
+

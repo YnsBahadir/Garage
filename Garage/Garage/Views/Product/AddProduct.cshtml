@@ -20,6 +20,27 @@
                             <input type="text" name="Title" class="form-control" required placeholder="Örn: iPhone 13 128GB" />
                         </div>
 
+                        <div class="mb-3">
+                            <label class="fw-bold">Kategori</label>
+
+                            @if (ViewBag.v != null)
+                            {
+                                <select name="CategoryID" class="form-select" required>
+                                    <option value="" disabled selected>--- Kategori Seçiniz ---</option>
+                                    @foreach (var item in (List<SelectListItem>)ViewBag.v)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                            }
+                            else
+                            {
+                                <div class="alert alert-danger">
+                                    Kategoriler yüklenemedi! Lütfen Controller kodunu kontrol edin.
+                                </div>
+                            }
+                        </div>
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label>Fiyat (₺)</label>

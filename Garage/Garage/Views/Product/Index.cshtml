@@ -6,74 +6,90 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<header class="bg-dark py-5 mb-5">
+<header class="bg-dark py-5 mb-4">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
             <h1 class="display-4 fw-bolder">İkinci Elin Güvenilir Adresi</h1>
-            <p class="lead fw-normal text-white-50 mb-0">Aradığın her şey burada, uygun fiyata.</p>
-
-            <div class="row justify-content-center mt-4">
-                <div class="col-md-6">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Ne aramıştınız? (Örn: iPhone 13)" aria-label="Arama">
-                        <button class="btn btn-warning" type="button">Ara</button>
-                    </div>
-                </div>
-            </div>
+            <p class="lead fw-normal text-white-50 mb-0">İhtiyacın olan her şey burada.</p>
         </div>
     </div>
 </header>
 
-<section class="py-2">
-    <div class="container px-4 px-lg-5 mt-5">
+<div class="container">
+    <div class="row">
 
-        @if (Model.Count == 0)
-        {
-            <div class="alert alert-warning text-center">
-                Henüz hiç ilan eklenmemiş. İlk ilanı sen ver!
+        <div class="col-lg-3">
+            <h4 class="my-4">Kategoriler</h4>
+            <div class="list-group">
+
+                @if (ViewBag.kategoriler != null)
+                {
+                    @foreach (var item in (List<Category>)ViewBag.kategoriler)
+                    {
+                        <a href="#" class="list-group-item list-group-item-action">
+                            @item.CategoryName
+                        </a>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">Kategori bulunamadı.</p>
+                }
+
             </div>
-        }
 
-        <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center">
+            <div class="card mt-4 mb-4">
+                <div class="card-header bg-warning text-white">Öne Çıkanlar</div>
+                <div class="card-body">
+                    <p class="card-text">Günün fırsat ürünlerini kaçırmayın!</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center">
 
-            @foreach (var item in Model)
-            {
-                <div class="col mb-5">
-                    <div class="card h-100 shadow-sm">
-                        @if (item.IsSold)
-                        {
-                            <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Satıldı</div>
-                        }
-                        else
-                        {
-                            <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Satışta</div>
-                        }
+                @if (Model.Count == 0)
+                {
+                    <div class="alert alert-warning w-100 text-center">
+                        Aradığınız kriterde ürün bulunamadı.
+                    </div>
+                }
 
-                        <img class="card-img-top" src="@(string.IsNullOrEmpty(item.ImageUrl) ? "https://dummyimage.com/450x300/dee2e6/6c757d.jpg" : item.ImageUrl)" alt="..." style="height: 200px; object-fit: cover;" />
+                @foreach (var item in Model)
+                {
+                    <div class="col mb-5">
+                        <div class="card h-100 shadow-sm">
 
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <h5 class="fw-bolder">@item.Title</h5>
-                                <p class="text-muted small mb-2"><i class="fas fa-map-marker-alt"></i> @item.City</p>
-                                <span class="fs-5 fw-bold text-primary">@item.Price ₺</span>
+                            @if (item.IsSold)
+                            {
+                                <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Satıldı</div>
+                            }
+                            else
+                            {
+                                <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Satışta</div>
+                            }
+
+                            <img class="card-img-top" src="@(string.IsNullOrEmpty(item.ImageUrl) ? "https://dummyimage.com/450x300/dee2e6/6c757d.jpg" : item.ImageUrl)" alt="..." style="height: 200px; object-fit: cover;" />
+
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder">@item.Title</h5>
+                                    <p class="text-muted small mb-2"><i class="fas fa-map-marker-alt"></i> @item.City</p>
+                                    <span class="fs-5 fw-bold text-primary">@item.Price ₺</span>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center d-flex justify-content-center gap-2">
-                                <a class="btn btn-outline-primary mt-auto" href="#">İncele</a>
-
-                                <a class="btn btn-outline-danger mt-auto"
-                                   href="/Product/DeleteProduct/@item.ProductID"
-                                   onclick="return confirm('Bu ilanı silmek istediğinize emin misiniz?');">
-                                    Sil
-                                </a>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center d-flex justify-content-center gap-2">
+                                    <a class="btn btn-outline-primary mt-auto" href="/Product/EditProduct/@item.ProductID">Düzenle</a>
+                                    <a class="btn btn-outline-danger mt-auto" href="/Product/DeleteProduct/@item.ProductID" onclick="return confirm('Silmek istediğine emin misin?');">Sil</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
 
+            </div>
         </div>
     </div>
-</section>
+</div>
