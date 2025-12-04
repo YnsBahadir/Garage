@@ -1,0 +1,61 @@
+﻿@model EntityLayer.Concrete.Product
+@{
+    ViewData["Title"] = "Yeni İlan Ver";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-warning">
+                    <h3 class="mb-0 text-white">Yeni İlan Oluştur</h3>
+                </div>
+                <div class="card-body">
+
+                    <form method="post">
+
+                        <div class="mb-3">
+                            <label>İlan Başlığı</label>
+                            <input type="text" name="Title" class="form-control" required placeholder="Örn: iPhone 13 128GB" />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>Fiyat (₺)</label>
+                                <input type="text" name="Price" class="form-control" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Şehir</label>
+                                <input type="text" name="City" class="form-control" required placeholder="İstanbul" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Ürün Durumu</label>
+                            <select name="Condition" class="form-control">
+                                <option value="Sıfır">Sıfır</option>
+                                <option value="Az Kullanılmış">Az Kullanılmış</option>
+                                <option value="Kullanılmış">Kullanılmış</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Görsel Linki (URL)</label>
+                            <input type="text" name="ImageUrl" class="form-control" placeholder="https://..." />
+                            <small class="text-muted">Şimdilik internetten bir resim linki yapıştırın.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Açıklama</label>
+                            <textarea name="Description" class="form-control" rows="4"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">İlanı Yayınla</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

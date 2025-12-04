@@ -20,7 +20,7 @@ namespace EntityLayer.Concrete
 
         public double Price { get; set; } // Fiyat (Decimal da kullanılabilir)
 
-        [StringLength(100)]
+        [StringLength(1000)]
         public string ImageUrl { get; set; } // Ana resim
 
         public DateTime Date { get; set; } // İlan tarihi
