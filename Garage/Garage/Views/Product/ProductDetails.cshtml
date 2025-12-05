@@ -44,13 +44,27 @@
                     <div class="seller-info p-3 bg-light rounded mb-4 border">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0">
-                                <img src="https://ui-avatars.com/api/?name=Satici&background=random" class="rounded-circle" width="50">
+                                <img src="@(string.IsNullOrEmpty(Model.AppUser.ImageUrl) ? "https://ui-avatars.com/api/?name=" + Model.AppUser.NameSurname : Model.AppUser.ImageUrl)"
+                                     class="rounded-circle border" width="60" height="60" style="object-fit: cover;">
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-0">Satıcı Bilgisi</h6>
-                                <small class="text-muted">Üye (Şimdilik Gizli)</small>
+                                <h6 class="mb-0 fw-bold">@Model.AppUser.NameSurname</h6>
+
+                                <small class="text-muted">@Model.AppUser.Username</small>
+                                <br />
+
+                                @if (!string.IsNullOrEmpty(Model.AppUser.PhoneNumber))
+                                {
+                                    <small class="text-success"><i class="fas fa-phone-alt"></i> @Model.AppUser.PhoneNumber</small>
+                                }
                             </div>
                         </div>
+
+                        @if (!string.IsNullOrEmpty(Model.AppUser.About))
+                        {
+                            <hr class="my-2" />
+                            <p class="small text-muted mb-0 fst-italic">"@Model.AppUser.About"</p>
+                        }
                     </div>
 
                     <div class="action">

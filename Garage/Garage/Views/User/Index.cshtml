@@ -1,0 +1,68 @@
+﻿@model EntityLayer.Concrete.AppUser
+@{
+    ViewData["Title"] = "Profilim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Profil Bilgilerim</h4>
+                    <a href="/Login/LogOut" class="btn btn-danger btn-sm">Oturumu Kapat</a>
+                </div>
+                <div class="card-body">
+
+                    <form method="post">
+
+                        <div class="text-center mb-4">
+                            <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "https://ui-avatars.com/api/?name=" + Model.NameSurname : Model.ImageUrl)"
+                                 class="rounded-circle img-thumbnail" style="width: 120px; height: 120px; object-fit: cover;">
+                            <br />
+                            <small class="text-muted">Resim Linki:</small>
+                            <input type="text" name="ImageUrl" value="@Model.ImageUrl" class="form-control form-control-sm mt-1" placeholder="https://..." />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>Ad Soyad</label>
+                                <input type="text" name="NameSurname" value="@Model.NameSurname" class="form-control" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Kullanıcı Adı</label>
+                                <input type="text" name="Username" value="@Model.Username" class="form-control" required />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Mail Adresi (Değiştirilemez)</label>
+                            <input type="text" value="@Model.Mail" class="form-control" disabled />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Telefon</label>
+                            <input type="text" name="PhoneNumber" value="@Model.PhoneNumber" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Yeni Şifre (Değiştirmek istemiyorsanız boş bırakın)</label>
+                            <input type="password" name="Password" class="form-control" placeholder="******" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Hakkımda</label>
+                            <textarea name="About" class="form-control" rows="3">@Model.About</textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Bilgilerimi Güncelle</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

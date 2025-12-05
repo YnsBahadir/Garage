@@ -16,7 +16,10 @@ namespace DataAccessLayer.EntityFramework
         {
             using (var c = new DataAccessLayer.Concrete.Context())
             {
-                return c.Products.Include(x => x.Category).FirstOrDefault(x => x.ProductID == id);
+                return c.Products
+                    .Include(x => x.Category)
+                    .Include(x => x.AppUser)
+                    .FirstOrDefault(x => x.ProductID == id);
             }
         }
     }

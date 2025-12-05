@@ -18,29 +18,27 @@ namespace EntityLayer.Concrete
         [StringLength(50)]
         public string Username { get; set; }
 
+        public string Password { get; set; }
+
         [StringLength(100)]
         public string Mail { get; set; }
 
         [StringLength(20)]
-        public string PhoneNumber { get; set; } // Satıcıya ulaşmak için önemli
+        public string PhoneNumber { get; set; }
 
         [StringLength(100)]
-        public string ImageUrl { get; set; } // Profil fotoğrafı
+        public string ImageUrl { get; set; }
 
         [StringLength(500)]
-        public string About { get; set; } // "Hızlı kargo yaparım" vb. açıklamalar
+        public string About { get; set; }
 
         public bool Status { get; set; }
 
-        // Kullanıcının sattığı ürünler
         public List<Product> Products { get; set; }
 
-        // Kullanıcının yaptığı teklifler/mesajlar
         public List<Offer> Offers { get; set; }
 
         public virtual ICollection<Message2> WriterSender { get; set; }
-
-        // Kullanıcının ALDIĞI mesajlar listesi
         public virtual ICollection<Message2> WriterReceiver { get; set; }
     }
 }

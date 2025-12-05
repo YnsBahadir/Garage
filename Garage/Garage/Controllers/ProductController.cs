@@ -1,8 +1,10 @@
 ﻿using BusinessLayer.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace Garage.Controllers
 {
@@ -99,6 +101,19 @@ namespace Garage.Controllers
         {
             var value = _productService.TGetProductWithCategory(id);
             return View(value);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult MyAds()
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            var values = _productService.GetList()
+                .Where(x => x.AppUserID == userId)
+                .ToList();
+
+            return View(values);
         }
     }
 }

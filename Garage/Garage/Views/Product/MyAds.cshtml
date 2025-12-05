@@ -1,0 +1,70 @@
+﻿@using EntityLayer.Concrete
+@model List<Product>
+
+@{
+    ViewData["Title"] = "İlanlarım";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Yayındaki İlanlarım</h4>
+            <a href="/Product/AddProduct" class="btn btn-warning btn-sm text-dark fw-bold">+ Yeni İlan Ekle</a>
+        </div>
+        <div class="card-body">
+
+            @if (Model.Count == 0)
+            {
+                <div class="alert alert-info text-center">
+                    Henüz hiç ilan vermediniz. Hadi ilk ilanını oluştur!
+                </div>
+            }
+            else
+            {
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Resim</th>
+                            <th>Başlık</th>
+                            <th>Fiyat</th>
+                            <th>Tarih</th>
+                            <th>Durum</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "https://dummyimage.com/100x100/dee2e6/6c757d.jpg" : item.ImageUrl)"
+                                         class="rounded" width="60" height="60" style="object-fit: cover;">
+                                </td>
+                                <td class="fw-bold">@item.Title</td>
+                                <td class="text-primary">@item.Price ₺</td>
+                                <td>@item.Date.ToString("dd.MM.yyyy")</td>
+                                <td>
+                                    @if (item.IsSold)
+                                    {
+                                        <span class="badge bg-danger">Satıldı</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">Yayında</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="/Product/ProductDetails/@item.ProductID" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a>
+                                    <a href="/Product/EditProduct/@item.ProductID" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i></a>
+                                    <a href="/Product/DeleteProduct/@item.ProductID" onclick="return confirm('Silmek istediğine emin misin?')" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+        </div>
+    </div>
+</div>

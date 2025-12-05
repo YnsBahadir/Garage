@@ -20,12 +20,41 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">İlanlar</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Kategoriler</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Giriş Yap</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Product/AddProduct"><b>+ İLAN VER</b></a></li>
+                
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+                    <li class="nav-item"><a class="nav-link" href="/Product/Index">İlanlar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Product/Index">Kategoriler</a></li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i> @User.Identity.Name
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/User/Index">Profilim</a></li>
+                                <li><a class="dropdown-item" href="/Product/MyAds">İlanlarım</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="/Login/LogOut">Çıkış Yap</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item ms-2">
+                            <a class="nav-link btn btn-warning px-3" href="/Product/AddProduct"><b>+ İLAN VER</b></a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Login/Index">Giriş Yap</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-outline-primary ms-2" href="/Register/Index">Kayıt Ol</a>
+                        </li>
+                    }
                 </ul>
+
             </div>
         </div>
     </nav>
