@@ -1,15 +1,23 @@
-﻿using System;
+﻿using DataAccessLayer.Abstract;
+using DataAccessLayer.Repositories;
+using EntityLayer.Concrete;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccessLayer.Abstract;
-using DataAccessLayer.Repositories;
-using EntityLayer.Concrete;
 
 namespace DataAccessLayer.EntityFramework
 {
     public class EfProductRepository : GenericRepository<Product>, IProductDal
     {
+        public Product GetProductWithCategory(int id)
+        {
+            using (var c = new DataAccessLayer.Concrete.Context())
+            {
+                return c.Products.Include(x => x.Category).FirstOrDefault(x => x.ProductID == id);
+            }
+        }
     }
 }

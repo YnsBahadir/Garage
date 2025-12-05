@@ -9,7 +9,6 @@ namespace DataAccessLayer.Abstract
 {
     public interface IProductDal : IGenericDal<Product>
     {
-        // İleride "Kategorisiyle Beraber Ürünleri Getir" metodunu buraya yazacağız.
-        // Şimdilik boş kalsın.
+        Product GetProductWithCategory(int id);
     }
 }

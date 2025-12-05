@@ -11,9 +11,8 @@ namespace BusinessLayer.Concrete
 {
     public class ProductManager : IProductService
     {
-        IProductDal _productDal; // Bana veri erişim katmanını ver
+        IProductDal _productDal;
 
-        // Constructor (Yapıcı Metot) - Burası çok önemli!
         public ProductManager(IProductDal productDal)
         {
             _productDal = productDal;
@@ -21,8 +20,6 @@ namespace BusinessLayer.Concrete
 
         public void TAdd(Product t)
         {
-            // İŞ KURALLARI BURAYA YAZILIR
-            // Örn: if(t.Price <= 0) { Hata ver } else { Ekle }
             _productDal.Insert(t);
         }
 
@@ -49,6 +46,11 @@ namespace BusinessLayer.Concrete
         public List<Product> GetProductsByCategory(int id)
         {
             return _productDal.GetListAll().Where(x => x.CategoryID == id).ToList();
+        }
+
+        public Product TGetProductWithCategory(int id)
+        {
+            return _productDal.GetProductWithCategory(id);
         }
     }
 }

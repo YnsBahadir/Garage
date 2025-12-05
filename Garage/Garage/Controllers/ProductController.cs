@@ -92,7 +92,13 @@ namespace Garage.Controllers
 
             _productService.TUpdate(p);
             return RedirectToAction("Index");
+        }
 
+        [HttpGet]
+        public IActionResult ProductDetails(int id)
+        {
+            var value = _productService.TGetProductWithCategory(id);
+            return View(value);
         }
     }
 }
