@@ -4,6 +4,8 @@ using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +54,20 @@ builder.Services.AddScoped<IAdminDal, EfAdminRepository>();
 
 
 var app = builder.Build();
+
+var myCulture = new CultureInfo("tr-TR");
+
+myCulture.NumberFormat.NumberGroupSeparator = ",";
+myCulture.NumberFormat.NumberDecimalSeparator = ".";
+
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(myCulture),
+    SupportedCultures = new List<CultureInfo> { myCulture },
+    SupportedUICultures = new List<CultureInfo> { myCulture }
+};
+
+app.UseRequestLocalization(localizationOptions);
 
 if (!app.Environment.IsDevelopment())
 {

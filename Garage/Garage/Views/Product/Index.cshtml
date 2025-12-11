@@ -61,34 +61,33 @@
                 @foreach (var item in Model)
                 {
                     <div class="col mb-5">
-                        <div class="card h-100 shadow-sm">
+                        <div class="card h-100 shadow-sm border-0">
 
                             @if (item.IsSold)
                             {
-                                <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Satıldı</div>
+                                <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem; z-index: 10;">Satıldı</div>
                             }
                             else
                             {
-                                <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Satışta</div>
+                                <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem; z-index: 10;">Satışta</div>
                             }
 
-                            <img class="card-img-top" src="@(string.IsNullOrEmpty(item.ImageUrl) ? "https://dummyimage.com/450x300/dee2e6/6c757d.jpg" : item.ImageUrl)" alt="..." style="height: 200px; object-fit: cover;" />
+                            <a href="/Product/ProductDetails/@item.ProductID">
+                                <img class="card-img-top" src="@(string.IsNullOrEmpty(item.ImageUrl) ? "https://dummyimage.com/450x300/dee2e6/6c757d.jpg" : item.ImageUrl)" alt="..." style="height: 200px; object-fit: cover;" />
+                            </a>
 
                             <div class="card-body p-4">
                                 <div class="text-center">
-                                    <h5 class="fw-bolder">@item.Title</h5>
+                                    <h5 class="fw-bolder">
+                                        <a href="/Product/ProductDetails/@item.ProductID" class="text-decoration-none text-dark">
+                                            @item.Title
+                                        </a>
+                                    </h5>
                                     <p class="text-muted small mb-2"><i class="fas fa-map-marker-alt"></i> @item.City</p>
-                                    <span class="fs-5 fw-bold text-primary">@item.Price ₺</span>
+                                    <span class="fs-5 fw-bold text-primary">@item.Price.ToString("N0") ₺</span>
                                 </div>
                             </div>
 
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center d-flex justify-content-center gap-2">
-                                    <a class="btn btn-primary mt-auto" href="/Product/ProductDetails/@item.ProductID">İncele</a>
-                                    <a class="btn btn-outline-primary mt-auto" href="/Product/EditProduct/@item.ProductID">Düzenle</a>
-                                    <a class="btn btn-outline-danger mt-auto" href="/Product/DeleteProduct/@item.ProductID" onclick="return confirm('Silmek istediğine emin misin?');">Sil</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 }

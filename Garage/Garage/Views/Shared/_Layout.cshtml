@@ -9,27 +9,46 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
 
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/Product/Index"><b>Garage</b></a>
-            </li>
+            <a class="navbar-brand fw-bold" href="/Product/Index" style="font-size: 24px;">
+                <span class="text-warning">GARAGE</span> 2.EL
+            </a>
+
+            <form action="/Product/Index" method="get" class="d-none d-lg-flex mx-auto" style="width: 45%;">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control border-0" placeholder="Ne arıyorsun? (Örn: iPhone)" aria-label="Ara">
+
+                    <select name="city" class="form-select border-0 bg-light" style="max-width: 150px; border-left: 1px solid #ccc;">
+                        <option selected value="">Tüm Şehirler</option>
+                        <option value="İstanbul">İstanbul</option>
+                        <option value="Ankara">Ankara</option>
+                        <option value="İzmir">İzmir</option>
+                        <option value="Bursa">Bursa</option>
+                        <option value="Antalya">Antalya</option>
+                        <option value="Adana">Adana</option>
+                        <option value="Konya">Konya</option>
+                    </select>
+
+                    <button class="btn btn-warning" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
-                    <li class="nav-item"><a class="nav-link" href="/Product/Index">İlanlar</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Product/Index">Kategoriler</a></li>
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <li class="nav-item dropdown ms-2">
+                            <a class="nav-link dropdown-toggle fw-bold text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-user-circle"></i> @User.Identity.Name
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -40,17 +59,19 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item ms-2">
-                            <a class="nav-link btn btn-warning px-3" href="/Product/AddProduct"><b>+ İLAN VER</b></a>
+                        <li class="nav-item ms-3">
+                            <a class="nav-link btn btn-warning text-dark px-3 fw-bold" href="/Product/AddProduct">
+                                <i class="fas fa-plus"></i> İLAN VER
+                            </a>
                         </li>
                     }
                     else
                     {
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Login/Index">Giriş Yap</a>
+                        <li class="nav-item ms-2">
+                            <a class="nav-link text-white" href="/Login/Index">Giriş Yap</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-outline-primary ms-2" href="/Register/Index">Kayıt Ol</a>
+                        <li class="nav-item ms-2">
+                            <a class="nav-link btn btn-outline-light px-3" href="/Register/Index">Kayıt Ol</a>
                         </li>
                     }
                 </ul>

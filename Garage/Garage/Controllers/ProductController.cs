@@ -19,20 +19,28 @@ namespace Garage.Controllers
             _categoryService = categoryService;
         }
 
-        public IActionResult Index(int? id)
+        public IActionResult Index(int? id, string search, string city)
         {
             ViewBag.kategoriler = _categoryService.GetList();
 
+            var values = _productService.GetList();
+
             if (id != null)
             {
-                var values = _productService.GetProductsByCategory((int)id);
-                return View(values);
+                values = values.Where(x => x.CategoryID == id).ToList();
             }
-            else
+
+            if (!string.IsNullOrEmpty(search))
             {
-                var values = _productService.GetList();
-                return View(values);
+                values = values.Where(x => x.Title.ToLower().Contains(search.ToLower())).ToList();
             }
+
+            if (!string.IsNullOrEmpty(city) && city != "Tüm Şehirler")
+            {
+                values = values.Where(x => x.City == city).ToList();
+            }
+
+            return View(values);
         }
 
         [HttpGet]
@@ -50,26 +58,42 @@ namespace Garage.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult AddProduct(EntityLayer.Concrete.Product p)
         {
-            p.Date = System.DateTime.Now;
+            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            p.AppUserID = currentUserId;
+
+            p.Date = DateTime.Now;
             p.ProductStatus = true;
             p.IsSold = false;
             p.ViewCount = 0;
-            p.AppUserID = 1;
 
             _productService.TAdd(p);
-            return RedirectToAction("Index");
+
+            return RedirectToAction("MyAds");
         }
 
+        [Authorize]
         public IActionResult DeleteProduct(int id)
         {
+          
             var value = _productService.GetById(id);
+
+            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            if (value.AppUserID != currentUserId)
+            {
+                return RedirectToAction("Index");
+            }
+
             _productService.TDelete(value);
-            return RedirectToAction("Index");
+            return RedirectToAction("MyAds");
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult EditProduct(int id)
         {
@@ -82,17 +106,39 @@ namespace Garage.Controllers
             ViewBag.v = categoryValues;
 
             var value = _productService.GetById(id);
+
+            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (value.AppUserID != currentUserId)
+            {
+                return RedirectToAction("Index");
+            }
+
             return View(value);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult EditProduct(EntityLayer.Concrete.Product p)
         {
-            p.Date = System.DateTime.Now;
-            p.ProductStatus = true;
-            p.AppUserID = 1;
+            var realProduct = _productService.GetById(p.ProductID);
 
-            _productService.TUpdate(p);
+            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            if (realProduct.AppUserID != currentUserId)
+            {
+                return RedirectToAction("Index");
+            }
+
+            realProduct.Title = p.Title;
+            realProduct.Price = p.Price;
+            realProduct.City = p.City;
+            realProduct.Condition = p.Condition;
+            realProduct.ImageUrl = p.ImageUrl;
+            realProduct.Description = p.Description;
+            realProduct.CategoryID = p.CategoryID;
+            realProduct.IsSold = p.IsSold;
+
+            _productService.TUpdate(realProduct);
             return RedirectToAction("Index");
         }
 
