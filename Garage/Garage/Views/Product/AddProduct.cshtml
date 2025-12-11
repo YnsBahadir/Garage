@@ -16,45 +16,40 @@
                     <form method="post">
 
                         <div class="mb-3">
-                            <label>İlan Başlığı</label>
+                            <label class="fw-bold">İlan Başlığı</label>
                             <input type="text" name="Title" class="form-control" required placeholder="Örn: iPhone 13 128GB" />
                         </div>
 
                         <div class="mb-3">
                             <label class="fw-bold">Kategori</label>
-
                             @if (ViewBag.v != null)
                             {
-                                <select name="CategoryID" class="form-select" required>
-                                    <option value="" disabled selected>--- Kategori Seçiniz ---</option>
-                                    @foreach (var item in (List<SelectListItem>)ViewBag.v)
-                                    {
-                                        <option value="@item.Value">@item.Text</option>
-                                    }
-                                </select>
+                                @Html.DropDownListFor(x => x.CategoryID, (List<SelectListItem>)ViewBag.v, "--- Kategori Seçiniz ---", new { @class = "form-select" })
                             }
                             else
                             {
                                 <div class="alert alert-danger">
-                                    Kategoriler yüklenemedi! Lütfen Controller kodunu kontrol edin.
+                                    Kategoriler yüklenemedi! (Controller tarafını kontrol et)
                                 </div>
                             }
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label>Fiyat (₺)</label>
-                                <input type="text" name="Price" value="@(Model?.Price != 0 ? Model.Price.ToString("N0") : "")" class="form-control" placeholder="10,000" required />
+                                <label class="fw-bold">Fiyat (₺)</label>
+                                <input type="text" name="Price"
+                                       value="@(Model != null ? Model.Price.ToString("N0") : "")"
+                                       class="form-control" placeholder="10,000" required />
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label>Şehir</label>
+                                <label class="fw-bold">Şehir</label>
                                 <input type="text" name="City" class="form-control" required placeholder="İstanbul" />
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label>Ürün Durumu</label>
-                            <select name="Condition" class="form-control">
+                            <label class="fw-bold">Ürün Durumu</label>
+                            <select name="Condition" class="form-select">
                                 <option value="Sıfır">Sıfır</option>
                                 <option value="Az Kullanılmış">Az Kullanılmış</option>
                                 <option value="Kullanılmış">Kullanılmış</option>
@@ -62,19 +57,19 @@
                         </div>
 
                         <div class="mb-3">
-                            <label>Görsel Linki (URL)</label>
+                            <label class="fw-bold">Görsel Linki (URL)</label>
                             <input type="text" name="ImageUrl" class="form-control" placeholder="https://..." />
-                            <small class="text-muted">Şimdilik internetten bir resim linki yapıştırın.</small>
                         </div>
 
                         <div class="mb-3">
-                            <label>Açıklama</label>
+                            <label class="fw-bold">Açıklama</label>
                             <textarea name="Description" class="form-control" rows="4"></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">İlanı Yayınla</button>
 
                     </form>
+
                 </div>
             </div>
         </div>

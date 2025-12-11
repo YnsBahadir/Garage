@@ -43,6 +43,7 @@ namespace Garage.Controllers
             return View(values);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult AddProduct()
         {
