@@ -46,5 +46,6 @@ namespace EntityLayer.Concrete
 
         // Ürüne gelen yorumlar veya teklifler
         public List<Offer> Offers { get; set; }
+        public List<ProductComment> ProductComments { get; set; }
     }
 }

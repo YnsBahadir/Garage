@@ -37,6 +37,7 @@ namespace EntityLayer.Concrete
         public List<Product> Products { get; set; }
 
         public List<Offer> Offers { get; set; }
+        public List<ProductComment> ProductComments { get; set; }
 
         public virtual ICollection<Message2> WriterSender { get; set; }
         public virtual ICollection<Message2> WriterReceiver { get; set; }
