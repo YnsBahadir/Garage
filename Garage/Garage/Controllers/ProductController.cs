@@ -1,10 +1,12 @@
 ﻿using BusinessLayer.Abstract;
+using DataAccessLayer.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace Garage.Controllers
 {
@@ -146,22 +148,32 @@ namespace Garage.Controllers
         [HttpGet]
         public IActionResult ProductDetails(int id)
         {
-            var value = _productService.TGetProductWithCategory(id);
-            return View(value);
+            using var c = new Context();
+            var values = c.Products
+                          .Include(x => x.AppUser)
+                          .Include(x => x.Category)
+                          .Include(x => x.ProductComments)
+                          .ThenInclude(y => y.AppUser)
+                          .FirstOrDefault(x => x.ProductID == id);
+
+            return View(values);
         }
 
         [Authorize]
         [HttpGet]
         public IActionResult MyAds()
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            using var c = new Context();
 
-            var values = _productService.GetList()
-                .Where(x => x.AppUserID == userId)
-                .ToList();
+            var username = User.Identity.Name;
+
+            var userId = c.AppUsers.Where(x => x.Username == username).Select(y => y.AppUserID).FirstOrDefault();
+
+            var values = _productService.GetList().Where(x => x.AppUserID == userId).ToList();
 
             return View(values);
         }
+
     }
 }
 

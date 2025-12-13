@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Abstract;
+using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,18 +22,24 @@ namespace Garage.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var id = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var username = User.Identity.Name;
 
-            var values = _appUserService.GetById(id);
+            using var c = new Context();
+            var usernameToId = c.AppUsers.Where(x => x.Username == username).Select(y => y.AppUserID).FirstOrDefault();
+
+            var values = _appUserService.GetById(usernameToId);
             return View(values);
         }
 
         [HttpPost]
         public IActionResult Index(AppUser p)
         {
-            var id = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var username = User.Identity.Name;
 
-            var user = _appUserService.GetById(id);
+            using var c = new Context();
+            var usernameToId = c.AppUsers.Where(x => x.Username == username).Select(y => y.AppUserID).FirstOrDefault();
+
+            var user = _appUserService.GetById(usernameToId);
 
             user.NameSurname = p.NameSurname;
             user.Username = p.Username;

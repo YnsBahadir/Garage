@@ -10,7 +10,6 @@ using System.Linq;
 
 namespace DataAccessLayer.Repositories
 {
-    // Bu sınıf, T yerine ne gönderirsek (Product, Category vs.) onun işlemlerini yapar.
     public class GenericRepository<T> : IGenericDal<T> where T : class
     {
         Context c = new Context();

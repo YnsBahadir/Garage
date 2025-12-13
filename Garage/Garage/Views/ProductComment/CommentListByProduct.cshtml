@@ -1,0 +1,35 @@
+﻿@using EntityLayer.Concrete
+@model List<ProductComment>
+
+<div class="comments-area">
+    <h4>Yorumlar (@Model.Count)</h4>
+    @if (Model.Count == 0)
+    {
+        <p>Henüz bu ürüne yorum yapılmamış. İlk yorumu sen yap!</p>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+            <div class="comment-list">
+                <div class="single-comment justify-content-between d-flex">
+                    <div class="user justify-content-between d-flex">
+                        <div class="desc">
+                            <h5>
+                                <a href="#">
+                                    @* Name ve Surname yerine NameSurname kullandık *@
+                                    @(item.AppUser != null ? item.AppUser.NameSurname : "Misafir Kullanıcı")
+                                </a>
+                            </h5>
+                            <p class="date">@(((DateTime)item.Date).ToString("dd-MMM-yyyy"))</p>
+                            <p class="comment">
+                                @item.Content
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        }
+    }
+</div>

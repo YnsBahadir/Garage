@@ -3,11 +3,15 @@
 @{
     ViewData["Title"] = "Ürün Detayı";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Yorum Formu için ID Taşıma
+    ViewBag.i = Model.ProductID;
 }
 
 <div class="container mt-5 mb-5">
     <div class="card shadow">
         <div class="container-fluid">
+
             <div class="wrapper row">
 
                 <div class="col-md-6 p-4 d-flex align-items-center justify-content-center bg-light">
@@ -67,16 +71,11 @@
                         }
                     </div>
 
-                    @using System.Security.Claims
-
-                    @{
-                        var currentUserId = User.Identity.IsAuthenticated
-                        ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
-                        : 0;
-                    }
+                    @* --- DÜZELTİLEN KISIM BAŞLANGIÇ --- *@
+                    @* int.Parse işlemini kaldırdık. Kullanıcı Adlarını karşılaştırıyoruz *@
 
                     <div class="action">
-                        @if (Model.AppUserID == currentUserId)
+                        @if (User.Identity.IsAuthenticated && Model.AppUser.Username == User.Identity.Name)
                         {
                             <div class="d-grid gap-2">
                                 <a href="/Product/EditProduct/@Model.ProductID" class="btn btn-warning btn-lg">
@@ -104,6 +103,36 @@
                             }
                         }
                     </div>
+                    @* --- DÜZELTİLEN KISIM BİTİŞ --- *@
+
+                </div>
+            </div>
+
+            <div class="row mt-4 mb-4">
+                <div class="col-12 px-5">
+                    <hr />
+                    <h3 class="fw-bold mb-4">Ürün Yorumları</h3>
+
+                    @await Html.PartialAsync("~/Views/ProductComment/CommentListByProduct.cshtml", Model.ProductComments ?? new List<EntityLayer.Concrete.ProductComment>())
+
+                    <hr class="my-4" />
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="bg-light p-4 rounded border">
+                            @await Html.PartialAsync("~/Views/ProductComment/AddComment.cshtml")
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning text-center p-4">
+                            <h5>Bu ilana yorum yapmak için giriş yapmalısınız.</h5>
+                            <p>Yorumlarınız satıcı için değerlidir.</p>
+                            <a href="/Login/Index" class="btn btn-dark mt-2">Giriş Yap</a>
+                            <span class="mx-2">veya</span>
+                            <a href="/Register/Index" class="btn btn-outline-dark mt-2">Kayıt Ol</a>
+                        </div>
+                    }
 
                 </div>
             </div>

@@ -52,6 +52,9 @@ builder.Services.AddScoped<INewsLetterDal, EfNewsLetterRepository>();
 builder.Services.AddScoped<IAdminService, AdminManager>();
 builder.Services.AddScoped<IAdminDal, EfAdminRepository>();
 
+builder.Services.AddScoped<IProductCommentDal, EfProductCommentDal>();
+builder.Services.AddScoped<IProductCommentService, ProductCommentManager>();
+
 
 var app = builder.Build();
 
