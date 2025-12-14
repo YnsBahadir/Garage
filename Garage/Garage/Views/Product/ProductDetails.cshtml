@@ -14,10 +14,21 @@
 
             <div class="wrapper row">
 
-                <div class="col-md-6 p-4 d-flex align-items-center justify-content-center bg-light">
+                <div class="col-md-6 p-4 d-flex flex-column align-items-center justify-content-center bg-light">
+
                     <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "https://dummyimage.com/600x400/dee2e6/6c757d.jpg" : Model.ImageUrl)"
                          class="img-fluid rounded shadow-sm"
                          style="max-height: 500px; width: auto;" />
+
+                    <div class="mt-4 text-center w-100 border-top pt-3">
+                        <h4 class="fw-bold text-dark">
+                            <i class="fas fa-map-marker-alt text-danger"></i> @Model.City
+                        </h4>
+                        <p class="text-muted mb-0">
+                            <i class="fas fa-calendar-alt"></i> İlan Tarihi: @(((DateTime)Model.Date).ToString("dd MMMM yyyy"))
+                        </p>
+                    </div>
+
                 </div>
 
                 <div class="col-md-6 p-5">
@@ -43,7 +54,6 @@
 
                     <h2 class="price fw-bold text-primary mb-4">@Model.Price ₺</h2>
 
-                    <p class="fw-bold"><i class="fas fa-map-marker-alt text-danger"></i> Konum: <span class="fw-normal">@Model.City</span></p>
 
                     <div class="seller-info p-3 bg-light rounded mb-4 border">
                         <div class="d-flex align-items-center">
