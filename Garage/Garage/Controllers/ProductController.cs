@@ -180,54 +180,36 @@ namespace Garage.Controllers
         [HttpPost]
         public IActionResult MakeOffer(int id, decimal OfferPrice)
         {
-            // Ürünü ve o ürünü satan kullanıcıyı (AppUser) çekmek için 
-            // ProductDetails metodundaki yapıyı kullanıyoruz:
             using var c = new Context();
             var product = c.Products
-                .Include(x => x.AppUser) // Mail göndereceğimiz kişinin mailini bulmak için bu şart
+                .Include(x => x.AppUser)
                 .FirstOrDefault(x => x.ProductID == id);
 
-            if (product == null)
-            {
-                return NotFound();
-            }
+            if (product == null) return NotFound();
 
-            try
-            {
-                MimeMessage mimeMessage = new MimeMessage();
+            MimeMessage mimeMessage = new MimeMessage();
 
-                // GÖNDEREN KİŞİ (BURALARI KENDİ BİLGİLERİNLE DOLDURMALISIN)
-                MailboxAddress mailboxAddressFrom = new MailboxAddress("Garage Admin", "SENIN_GMAIL_ADRESIN@gmail.com");
-                mimeMessage.From.Add(mailboxAddressFrom);
+            MailboxAddress mailboxAddressFrom = new MailboxAddress("Garage Admin", "ynsbahadir@gmail.com");
+            mimeMessage.From.Add(mailboxAddressFrom);
 
-                // ALICI KİŞİ (Ürün Sahibinin Bilgileri Veritabanından Geliyor)
-                MailboxAddress mailboxAddressTo = new MailboxAddress(product.AppUser.NameSurname, product.AppUser.Mail);
-                mimeMessage.To.Add(mailboxAddressTo);
+            MailboxAddress mailboxAddressTo = new MailboxAddress(product.AppUser.NameSurname, product.AppUser.Mail);
+            mimeMessage.To.Add(mailboxAddressTo);
 
-                // MESAJ İÇERİĞİ
-                var bodyBuilder = new BodyBuilder();
-                bodyBuilder.TextBody = $"Merhaba {product.AppUser.NameSurname},\n\n" +
-                                       $"{product.Title} ilanınız için bir kullanıcı {OfferPrice} ₺ teklif verdi.\n" +
-                                       $"Site üzerinden teklifleri kontrol edebilirsiniz.";
+            var bodyBuilder = new BodyBuilder();
+            bodyBuilder.TextBody = $"Merhaba {product.AppUser.NameSurname},\n\n" +
+                                   $"'{product.Title}' ilanınız için bir kullanıcı {OfferPrice} ₺ teklif verdi.\n" +
+                                   $"Detaylar için siteyi ziyaret edebilirsiniz.";
 
-                mimeMessage.Body = bodyBuilder.ToMessageBody();
-                mimeMessage.Subject = "Yeni Bir Ürün Teklifi Aldınız!";
+            mimeMessage.Body = bodyBuilder.ToMessageBody();
+            mimeMessage.Subject = "Yeni Bir Teklifiniz Var!";
 
-                // SMTP AYARLARI
-                SmtpClient client = new SmtpClient();
-                client.Connect("smtp.gmail.com", 587, false);
+            SmtpClient client = new SmtpClient();
+            client.Connect("smtp.gmail.com", 587, false);
 
-                // ŞİFRE ALANI (BURAYA ALDIĞIN 16 HANELİ GMAIL UYGULAMA ŞİFRESİNİ YAZMALISIN)
-                client.Authenticate("SENIN_GMAIL_ADRESIN@gmail.com", "GMAIL_UYGULAMA_SIFREN");
+            client.Authenticate("ynsbahadir@gmail.com", "xfqb cjde ofrw vpus");
 
-                client.Send(mimeMessage);
-                client.Disconnect(true);
-            }
-            catch (Exception ex)
-            {
-                // Hata durumunda loglama yapılabilir veya kullanıcı uyarılabilir.
-                // Şimdilik sessizce devam ediyoruz.
-            }
+            client.Send(mimeMessage);
+            client.Disconnect(true);
 
             return RedirectToAction("ProductDetails", new { id = id });
         }

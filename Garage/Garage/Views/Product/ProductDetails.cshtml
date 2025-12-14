@@ -52,10 +52,7 @@
                                      class="rounded-circle border" width="60" height="60" style="object-fit: cover;">
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-0 fw-bold">@Model.AppUser.NameSurname</h6>
-
-                                <small class="text-muted">@Model.AppUser.Username</small>
-                                <br />
+                                <h5 class="mb-0 fw-bold">@Model.AppUser.Username</h5>
 
                                 @if (!string.IsNullOrEmpty(Model.AppUser.PhoneNumber))
                                 {
@@ -147,7 +144,7 @@
                 </div>
                 <form action="/Product/MakeOffer" method="post">
                     <div class="modal-body">
-                        <input type="hidden" name="ProductID" value="@Model.ProductID" />
+                        <input type="hidden" name="id" value="@Model.ProductID" />
 
                         <p><strong>@Model.Title</strong> ürünü için teklifiniz nedir?</p>
 
