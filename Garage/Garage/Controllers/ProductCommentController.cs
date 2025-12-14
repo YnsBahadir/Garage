@@ -19,24 +19,31 @@ namespace Garage.Controllers
         [HttpPost]
         public IActionResult AddComment(ProductComment p)
         {
+            // Giriş kontrolü
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Login");
             }
 
+            p.Date = DateTime.Now;
+
             using var c = new Context();
-
             var username = User.Identity.Name;
-
             var user = c.AppUsers.FirstOrDefault(x => x.Username == username);
 
-            if (user == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
+            if (user == null) return RedirectToAction("Index", "Login");
 
             p.AppUserID = user.AppUserID;
-            p.Date = DateTime.Now;
+
+            if (p.ParentCommentID != null && p.ParentCommentID != 0)
+            {
+                var product = c.Products.Find(p.ProductID);
+
+                if (product.AppUserID != user.AppUserID)
+                {
+                    return Content("HATA: Sadece satıcı cevap verebilir!");
+                }
+            }
 
             _productCommentService.TAdd(p);
 

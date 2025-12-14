@@ -35,13 +35,13 @@ namespace EntityLayer.Concrete
         [StringLength(20)]
         public string Condition { get; set; } // "Sıfır", "Az Kullanılmış", "Hasarlı"
 
-        public int ViewCount { get; set; } // İlan kaç kez görüntülendi? (Hocalar bunu sever)
+        public int ViewCount { get; set; }
 
-        // İLİŞKİLER
+
         public int CategoryID { get; set; }
         public Category Category { get; set; }
 
-        public int AppUserID { get; set; } // Satıcı ID'si (Writer yerine)
+        public int AppUserID { get; set; }
         public AppUser AppUser { get; set; }
 
         // Ürüne gelen yorumlar veya teklifler

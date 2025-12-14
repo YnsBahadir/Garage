@@ -71,8 +71,6 @@
                         }
                     </div>
 
-                    @* --- DÜZELTİLEN KISIM BAŞLANGIÇ --- *@
-                    @* int.Parse işlemini kaldırdık. Kullanıcı Adlarını karşılaştırıyoruz *@
 
                     <div class="action">
                         @if (User.Identity.IsAuthenticated && Model.AppUser.Username == User.Identity.Name)
@@ -97,13 +95,14 @@
                             else
                             {
                                 <div class="d-grid gap-2">
-                                    <button class="btn btn-primary btn-lg" type="button"><i class="fas fa-comment-dots"></i> Satıcıya Mesaj At</button>
-                                    <button class="btn btn-outline-success btn-lg" type="button"><i class="fas fa-tag"></i> Teklif Ver</button>
+                                    <a href="#yorumlar" class="btn btn-primary btn-lg"><i class="fas fa-comment-dots"></i> Satıcıya Soru Sor</a>
+                                    <button type="button" class="btn btn-outline-success btn-lg" data-bs-toggle="modal" data-bs-target="#offerModal">
+                                        <i class="fas fa-tag"></i> Teklif Ver
+                                    </button>
                                 </div>
                             }
                         }
                     </div>
-                    @* --- DÜZELTİLEN KISIM BİTİŞ --- *@
 
                 </div>
             </div>
@@ -111,7 +110,7 @@
             <div class="row mt-4 mb-4">
                 <div class="col-12 px-5">
                     <hr />
-                    <h3 class="fw-bold mb-4">Ürün Yorumları</h3>
+                    <h3 id="yorumlar" class="fw-bold mb-4">Ürün Soru-Cevap</h3>
 
                     @await Html.PartialAsync("~/Views/ProductComment/CommentListByProduct.cshtml", Model.ProductComments ?? new List<EntityLayer.Concrete.ProductComment>())
 
@@ -138,4 +137,32 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="offerModal" tabindex="-1" aria-labelledby="offerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="offerModalLabel">Teklif Ver</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+                <form action="/Product/MakeOffer" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="ProductID" value="@Model.ProductID" />
+
+                        <p><strong>@Model.Title</strong> ürünü için teklifiniz nedir?</p>
+
+                        <div class="mb-3">
+                            <label for="offerPrice" class="col-form-label">Teklif Fiyatı (₺):</label>
+                            <input type="number" class="form-control" id="offerPrice" name="OfferPrice" required min="1">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-success">Teklifi Gönder</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
