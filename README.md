@@ -12,9 +12,10 @@ Built with **ASP.NET Core MVC** and **Entity Framework Core**, following the N-T
 
 ## 📸 Screenshots
 
-| Home Page | Product Details |
+| Home Page | Product Details | Admin Page |
 |-----------|-----------------|
-| ![Home](https://dummyimage.com/600x400/000/fff&text=Home+Page+Screenshot) | ![Details](https://dummyimage.com/600x400/000/fff&text=Product+Details+Screenshot) |
+| ![Home](https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011253.png) | ![Product](https://raw.githubusercontent.com/YnsBahadir/Garage/refs/heads/main/Picture/Screenshot%202025-12-17%20011436.png) |
+ ![Admin](https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011342.png) |
 
 ---
 
