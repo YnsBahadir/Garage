@@ -1,0 +1,182 @@
+﻿@model Garage.Models.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Paneli";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid mt-5">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>Garage Yönetim Paneli</h2>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card text-white bg-primary mb-3 shadow">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-car"></i> Toplam İlan</h5>
+                    <p class="card-text display-4">@Model.TotalProducts</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-white bg-success mb-3 shadow">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-list"></i> Kategori Sayısı</h5>
+                    <p class="card-text display-4">@Model.TotalCategories</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-header bg-dark text-white">
+                    Kategori Dağılımı
+                </div>
+                <div class="card-body">
+                    <canvas id="categoryChart" style="max-height:250px"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-header bg-dark text-white">
+                    Hızlı Kategori Yönetimi
+                </div>
+                <div class="card-body">
+                    <form action="/Admin/AddCategory" method="post" class="d-flex mb-3">
+                        <input type="text" name="CategoryName" class="form-control me-2" placeholder="Yeni Kategori Adı..." required>
+                        <button type="submit" class="btn btn-success">Ekle</button>
+                    </form>
+
+                    <div style="max-height: 250px; overflow-y: auto;">
+                        <ul class="list-group">
+                            @foreach (var cat in Model.AllCategories)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    @cat.CategoryName
+                                    <a href="/Admin/DeleteCategory/@cat.CategoryID" class="btn btn-outline-danger btn-sm" onclick="return confirm('Bu kategoriyi silmek istediğine emin misin?')">Sil</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 mb-5">
+        <div class="col-md-12">
+            <div class="card shadow">
+
+                <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center p-3">
+                    <h5 class="mb-0">Son Eklenen İlanlar (Ürünler)</h5>
+
+                    <form method="get" action="/Admin/Index" class="d-flex" style="max-width: 350px;">
+                        <input type="text" name="search" class="form-control form-control-sm me-2"
+                               placeholder="Ürün veya Satıcı Ara..."
+                               value="@Context.Request.Query["search"]">
+
+                        <button class="btn btn-light btn-sm fw-bold" type="submit">Ara</button>
+
+                        @if (!string.IsNullOrEmpty(Context.Request.Query["search"]))
+                        {
+                            <a href="/Admin/Index" class="btn btn-danger btn-sm ms-1">X</a>
+                        }
+                    </form>
+                </div>
+
+                <div class="card-body p-0">
+                    <table class="table table-hover table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Ürün Başlığı</th>
+                                <th>Fiyat</th>
+                                <th>Kategori</th>
+                                <th>Satıcı</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.LastProducts.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center p-4">
+                                        Aradığınız kriterlere uygun sonuç bulunamadı.
+                                    </td>
+                                </tr>
+                            }
+
+                            @foreach (var item in Model.LastProducts)
+                            {
+                                <tr>
+                                    <td>@item.ProductID</td>
+                                    <td>@item.Title</td>
+                                    <td>@item.Price ₺</td>
+
+                                    <td>
+                                        @if (item.Category != null)
+                                        {
+                                            <span class="badge bg-info text-dark">@item.Category.CategoryName</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (item.AppUser != null)
+                                        {
+                                            <span class="fw-bold">@item.AppUser.NameSurname</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted fst-italic">Bilinmiyor</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <a href="/Admin/DeleteProduct/@item.ProductID" class="btn btn-danger btn-sm" onclick="return confirm('İlanı silmek istiyor musun?')">Sil</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var labels = @Html.Raw(Json.Serialize(Model.CategoryLabels));
+    var counts = @Html.Raw(Json.Serialize(Model.CategoryCounts));
+
+    var ctx = document.getElementById('categoryChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'İlan Sayısı',
+                data: counts,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)', 'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)', 'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)', 'rgba(255, 159, 64, 0.8)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+    });
+</script>

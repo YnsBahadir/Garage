@@ -22,5 +22,16 @@ namespace DataAccessLayer.EntityFramework
                     .FirstOrDefault(x => x.ProductID == id);
             }
         }
+
+        public List<Product> GetProductsWithDetails()
+        {
+            using (var c = new DataAccessLayer.Concrete.Context())
+            {
+                return c.Products
+                    .Include(x => x.Category)
+                    .Include(x => x.AppUser) 
+                    .ToList();
+            }
+        }
     }
 }
