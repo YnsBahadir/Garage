@@ -13,9 +13,9 @@ Built with **ASP.NET Core MVC** and **Entity Framework Core**, following the N-T
 ## 📸 Screenshots
 
 | Home Page | Product Details | Admin Page |
-|-----------|-----------------|
-| ![Home](https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011253.png) | ![Product](https://raw.githubusercontent.com/YnsBahadir/Garage/refs/heads/main/Picture/Screenshot%202025-12-17%20011436.png) |
- ![Admin](https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011342.png) |
+
+<img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011253.png" width="500" alt="Home Page">
+<img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011436.png" width="400" alt="Home Page"> <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011342.png" width="500" alt="Home Page">
 
 ---
 
@@ -53,13 +53,3 @@ Built with **ASP.NET Core MVC** and **Entity Framework Core**, following the N-T
 * **Frontend:** HTML5, CSS3, Bootstrap 5, JavaScript
 * **Architecture:** N-Tier Architecture (Entity, DataAccess, Business, Presentation Layers)
 * **Tools:** Visual Studio, SSMS
-
----
-
-## 🚀 Getting Started
-
-Follow these steps to run the project locally.
-
-### 1. Clone the Repository
-```bash
-git clone [https://github.com/YnsBahadir/Garage.git](https://github.com/YnsBahadir/Garage.git)
