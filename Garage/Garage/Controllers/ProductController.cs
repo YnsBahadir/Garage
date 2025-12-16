@@ -67,7 +67,9 @@ namespace Garage.Controllers
         [HttpPost]
         public IActionResult AddProduct(EntityLayer.Concrete.Product p)
         {
-            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            Context c = new Context();
+            var username = User.Identity.Name;
+            var currentUserId = c.AppUsers.Where(x => x.Username == username).Select(y => y.AppUserID).FirstOrDefault();
 
             p.AppUserID = currentUserId;
 
@@ -87,7 +89,9 @@ namespace Garage.Controllers
           
             var value = _productService.GetById(id);
 
-            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            Context c = new Context();
+            var username = User.Identity.Name;
+            var currentUserId = c.AppUsers.Where(x => x.Username == username).Select(y => y.AppUserID).FirstOrDefault();
 
             if (value.AppUserID != currentUserId)
             {
@@ -112,7 +116,10 @@ namespace Garage.Controllers
 
             var value = _productService.GetById(id);
 
-            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            Context c = new Context();
+            var username = User.Identity.Name;
+            var currentUserId = c.AppUsers.Where(x => x.Username == username).Select(y => y.AppUserID).FirstOrDefault();
+
             if (value.AppUserID != currentUserId)
             {
                 return RedirectToAction("Index");
@@ -127,7 +134,9 @@ namespace Garage.Controllers
         {
             var realProduct = _productService.GetById(p.ProductID);
 
-            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            Context c = new Context();
+            var username = User.Identity.Name;
+            var currentUserId = c.AppUsers.Where(x => x.Username == username).Select(y => y.AppUserID).FirstOrDefault();
 
             if (realProduct.AppUserID != currentUserId)
             {
