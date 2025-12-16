@@ -1,55 +1,102 @@
-# 🚗 GARAGE | Second-Hand E-Commerce Platform
+<div align="center">
+  
+  <h1>🛍️ GARAGE</h1>
+  <h3>Premium Second-Hand E-Commerce Platform</h3>
+  
+  <p>
+    <b>C2C Ticaret</b> • <b>Teklif Sistemi</b> • <b>Soru-Cevap Etkileşimi</b>
+  </p>
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Status](https://img.shields.io/badge/status-Active-success.svg)
-![NET](https://img.shields.io/badge/.NET%20Core-5.0%2F6.0-purple)
-
-**Garage** is a C2C (Consumer-to-Consumer) e-commerce web application where users can list their second-hand items, interact with sellers via a Q&A system, and make purchase offers via email notifications.
-
-Built with **ASP.NET Core MVC** and **Entity Framework Core**, following the N-Tier Architecture.
+  <p>
+    <a href="https://github.com/YnsBahadir/Garage/graphs/contributors">
+      <img src="https://img.shields.io/github/contributors/YnsBahadir/Garage?style=for-the-badge&color=blue" alt="Contributors" />
+    </a>
+    <a href="https://github.com/YnsBahadir/Garage/network/members">
+      <img src="https://img.shields.io/github/forks/YnsBahadir/Garage?style=for-the-badge&color=orange" alt="Forks" />
+    </a>
+    <a href="https://github.com/YnsBahadir/Garage/stargazers">
+      <img src="https://img.shields.io/github/stars/YnsBahadir/Garage?style=for-the-badge&color=yellow" alt="Stars" />
+    </a>
+    <a href="https://github.com/YnsBahadir/Garage/blob/main/LICENSE">
+      <img src="https://img.shields.io/github/license/YnsBahadir/Garage?style=for-the-badge&color=green" alt="License" />
+    </a>
+  </p>
+</div>
 
 ---
 
+## 📖 About The Project
+
+**Garage** is a robust **C2C (Consumer-to-Consumer)** e-commerce web application. It empowers users to list their second-hand items, interact deeply with sellers via a specialized Q&A system, and negotiate prices through an email-integrated offer mechanism.
+
+Built with the power of **ASP.NET Core MVC** and **Entity Framework Core**, strictly following **N-Tier Architecture** principles for scalability and maintainability.
+
+---
+
+## 🛠️ Tech Stack & Tools
+
+This project was developed using the following technologies:
+
+<div align="center">
+
+  <img align="left" src="https://raw.githubusercontent.com/orhun/orhun/refs/heads/master/assets/ratatui-spin-dark.gif#gh-dark-mode-only">
+  <img align="left" src="https://raw.githubusercontent.com/orhun/orhun/refs/heads/master/assets/ratatui-spin-light.gif#gh-light-mode-only">
+
+| Backend | Frontend | Database & Tools |
+| :---: | :---: | :---: |
+| ![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white) | ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) | ![MicrosoftSQLServer](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white) |
+| ![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white) | ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) | ![Visual Studio](https://img.shields.io/badge/Visual%20Studio-5C2D91.svg?style=for-the-badge&logo=visual-studio&logoColor=white) |
+| ![Entity Framework](https://img.shields.io/badge/Entity%20Framework-512BD4?style=for-the-badge&logo=.net&logoColor=white) | ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white) | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) |
+
+ <br> <br> <br>
+</div>
+
 ## 📸 Screenshots
 
-| Home Page | Product Details | Admin Page |
+Projenin arayüzünden görünümler:
 
-<img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011253.png" width="500" alt="Home Page">
-<img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011436.png" width="400" alt="Home Page"> <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011342.png" width="500" alt="Home Page">
+<div align="center">
+  
+| 🏠 Home Page | 🔍 Product Details | ⚙️ Admin Panel |
+| :---: | :---: | :---: |
+| <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011253.png?raw=true" width="250" /> | <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011436.png?raw=true" width="250" /> | <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011342.png?raw=true" width="250" /> |
+
+</div>
 
 ---
 
 ## 🌟 Key Features
 
 ### 🛒 Product Management
-* **CRUD Operations:** Users can list, edit, and delete their own products.
-* **Image Handling:** Product images are stored via URL/File upload.
-* **Categories:** Products are organized by categories (Electronics, Vehicles, etc.).
+> Full control over your inventory.
+* **CRUD Operations:** Users can list, edit, and delete their own products securely.
+* **Image Handling:** Supports both URL-based and File Upload image storage.
+* **Categories:** Organized browsing with categories like Electronics, Vehicles, etc.
 
 ### 💬 Interactive Q&A System
-* **Ask a Question:** Potential buyers can ask questions on the product page.
-* **Seller-Only Replies:** Only the owner of the product can reply to questions. Replies are visually nested and highlighted.
+> Communicate before you buy.
+* **Ask a Question:** Potential buyers can leave public questions on product pages.
+* **Seller-Only Replies:** Replies are restricted to the product owner, visually highlighted for clarity.
 
 ### 📩 Offer System & Notifications
-* **Make an Offer:** Buyers can send price offers directly via the "Make Offer" button.
-* **SMTP Email Integration:** The system automatically sends a detailed email to the seller with the buyer's contact info when an offer is made.
+> Smart negotiation tools.
+* **Make an Offer:** A dedicated button allows buyers to propose a price.
+* **SMTP Integration:** Sellers receive instant, detailed email notifications with buyer contact info upon receiving an offer.
 
-### 🔐 User & Security
-* **Authentication:** Cookie-based authentication using `ClaimsIdentity`.
-* **Authorization:** Role-based access control (only owners can edit/delete their data).
-* **Profile Management:** Users can update their profile photo, password, and bio.
-
-### 🎨 Dynamic UI
-* **Carousel:** Dynamic slider showcasing featured or latest products.
-* **Responsive Design:** Fully responsive UI using Bootstrap 5.
+### 🔐 Security & Architecture
+> Built on solid foundations.
+* **Authentication:** Secure Cookie-based auth using `ClaimsIdentity`.
+* **Authorization:** Role-based access (Owners can only edit their own data).
+* **N-Tier Architecture:** Clean separation of concerns (Entity, DataAccess, Business, Presentation Layers).
 
 ---
 
-## 🛠 Technology Stack
+## 📂 Project Structure
 
-* **Backend:** C#, ASP.NET Core MVC
-* **ORM:** Entity Framework Core (Code First)
-* **Database:** MS SQL Server
-* **Frontend:** HTML5, CSS3, Bootstrap 5, JavaScript
-* **Architecture:** N-Tier Architecture (Entity, DataAccess, Business, Presentation Layers)
-* **Tools:** Visual Studio, SSMS
+```text
+Garage/
+├── BusinessLayer/       # Business Logic & Validation Rules (Managers)
+├── DataAccessLayer/     # Database Context & Repositories (EF Core)
+├── EntityLayer/         # Concrete Classes & Database Tables
+├── Garage/              # Presentation Layer (Controllers, Views, ViewModels)
+└── ...
