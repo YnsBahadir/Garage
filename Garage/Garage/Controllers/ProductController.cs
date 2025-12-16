@@ -22,7 +22,7 @@ namespace Garage.Controllers
             _productService = productService;
             _categoryService = categoryService;
         }
-        
+
         public IActionResult Index(int? id, string search, string city)
         {
             ViewBag.kategoriler = _categoryService.GetList();
@@ -34,14 +34,25 @@ namespace Garage.Controllers
                 values = values.Where(x => x.CategoryID == id).ToList();
             }
 
-            if (!string.IsNullOrEmpty(search))
-            {
-                values = values.Where(x => x.Title.ToLower().Contains(search.ToLower())).ToList();
-            }
-
             if (!string.IsNullOrEmpty(city) && city != "Tüm Şehirler")
             {
-                values = values.Where(x => x.City == city).ToList();
+                values = values.Where(x => x.City != null && x.City.ToLower().Contains(city.ToLower())).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                var searchTerms = search.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var term in searchTerms)
+                {
+                    values = values.Where(x =>
+                        (x.Title != null && x.Title.ToLower().Contains(term))
+                        ||
+                        (x.AppUser != null && (
+                            x.AppUser.NameSurname.ToLower().Contains(term)
+                        ))
+                    ).ToList();
+                }
             }
 
             return View(values);
