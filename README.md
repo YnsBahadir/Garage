@@ -36,11 +36,9 @@ Built with the power of **ASP.NET Core MVC** and **Entity Framework Core**, stri
 ## 🛠️ Tech Stack & Tools
 
 This project was developed using the following technologies:
-
-<div align="center">
-
   <img align="left" src="https://raw.githubusercontent.com/orhun/orhun/refs/heads/master/assets/ratatui-spin-dark.gif#gh-dark-mode-only">
   <img align="left" src="https://raw.githubusercontent.com/orhun/orhun/refs/heads/master/assets/ratatui-spin-light.gif#gh-light-mode-only">
+<div align="center">
 
 | Backend | Frontend | Database & Tools |
 | :---: | :---: | :---: |
