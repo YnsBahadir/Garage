@@ -2,7 +2,6 @@
 @model List<ProductComment>
 
 @{
-    // Giriş yapan kullanıcının adını alıyoruz (Cevap butonu kontrolü için)
     var currentUsername = User.Identity.IsAuthenticated ? User.Identity.Name : "";
 }
 
@@ -15,7 +14,6 @@
     }
     else
     {
-        // 1. SADECE SORULARI LİSTELE (ParentCommentID'si olmayanlar)
         foreach (var question in Model.Where(x => x.ParentCommentID == null || x.ParentCommentID == 0).OrderByDescending(x => x.Date))
         {
             <div class="card mb-3 border-0 shadow-sm">

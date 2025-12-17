@@ -3,109 +3,213 @@
 @{
     ViewData["Title"] = "Ürün Detayı";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    // Yorum Formu için ID Taşıma
     ViewBag.i = Model.ProductID;
 }
 
+<style>
+    .product-title {
+        color: #1c1c1c;
+        letter-spacing: -0.5px;
+    }
+
+    .price-tag {
+        color: #1c1c1c;
+        font-size: 2.5rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+    }
+
+    .price-currency {
+        font-size: 1.5rem;
+        color: black; 
+        vertical-align: super;
+    }
+
+    .seller-card {
+        background-color: #fdfdfd;
+        border: 1px solid #eee;
+        border-left: 5px solid #FFD700; 
+        border-radius: 8px;
+        transition: transform 0.2s;
+    }
+
+        .seller-card:hover {
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+    .btn-garage-primary {
+        background-color: #1c1c1c;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s;
+    }
+
+        .btn-garage-primary:hover {
+            background-color: #333;
+            color: #FFD700;
+        }
+
+    .btn-garage-outline {
+        background-color: transparent;
+        border: 2px solid #1c1c1c;
+        color: #1c1c1c;
+        padding: 12px;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s;
+    }
+
+        .btn-garage-outline:hover {
+            background-color: #1c1c1c;
+            color: #fff;
+        }
+
+    .product-image-container {
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        min-height: 400px;
+    }
+
+    .product-main-img {
+        max-height: 500px;
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+</style>
+
 <div class="container mt-5 mb-5">
-    <div class="card shadow">
-        <div class="container-fluid">
 
-            <div class="wrapper row">
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+        <div class="card-body p-0">
+            <div class="row g-0">
 
-                <div class="col-md-6 p-4 d-flex flex-column align-items-center justify-content-center bg-light">
+                <div class="col-lg-6 p-4 border-end">
 
-                    <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "https://dummyimage.com/600x400/dee2e6/6c757d.jpg" : Model.ImageUrl)"
-                         class="img-fluid rounded shadow-sm"
-                         style="max-height: 500px; width: auto;" />
-
-                    <div class="mt-4 text-center w-100 border-top pt-3">
-                        <h4 class="fw-bold text-dark">
-                            <i class="fas fa-map-marker-alt text-danger"></i> @Model.City
-                        </h4>
-                        <p class="text-muted mb-0">
-                            <i class="fas fa-calendar-alt"></i> İlan Tarihi: @(((DateTime)Model.Date).ToString("dd MMMM yyyy"))
-                        </p>
+                    <div class="product-image-container mb-4">
+                        <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "https://dummyimage.com/600x400/dee2e6/6c757d.jpg" : Model.ImageUrl)"
+                             class="product-main-img" alt="@Model.Title" />
                     </div>
 
+                    <div class="d-flex justify-content-between align-items-center px-2">
+                        <div class="text-muted small">
+                            <i class="fas fa-map-marker-alt text-danger me-1"></i> @Model.City
+                        </div>
+                        <div class="text-muted small">
+                            <i class="far fa-clock me-1"></i> @(((DateTime)Model.Date).ToString("dd MMMM yyyy"))
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-md-6 p-5">
+                <div class="col-lg-6 p-4 p-md-5 d-flex flex-column">
 
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge bg-secondary">Kategori: @Model.Category.CategoryName</span>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="badge bg-light text-dark border">
+                            <i class="fas fa-tag me-1 text-warning"></i> @Model.Category.CategoryName
+                        </span>
+
+                        @if (Model.IsSold)
+                        {
+                            <span class="badge bg-danger">SATILDI</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">YAYINDA</span>
+                        }
                     </div>
 
-                    <h3 class="product-title display-6 fw-bold">@Model.Title</h3>
+                    <h1 class="product-title fw-bold mb-2">@Model.Title</h1>
 
-                    <div class="rating mb-3 text-warning">
+                    <div class="mb-4 text-warning small">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star-half-alt"></i>
-                        <span class="text-muted small ms-2">(109 görüntülenme)</span>
+                        <span class="text-muted ms-2">(109 görüntülenme)</span>
                     </div>
 
-                    <p class="product-description text-muted mb-4" style="min-height: 100px;">
-                        @Model.Description
-                    </p>
+                    <div class="mb-4">
+                        <span class="price-tag">@Model.Price.ToString("N0")</span>
+                        <span class="price-currency">₺</span>
+                    </div>
 
-                    <h2 class="price fw-bold text-primary mb-4">@Model.Price ₺</h2>
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-dark">Açıklama</h6>
+                        <p class="text-muted" style="line-height: 1.6;">
+                            @Model.Description
+                        </p>
+                    </div>
 
-
-                    <div class="seller-info p-3 bg-light rounded mb-4 border">
+                    <div class="seller-card p-3 mb-4 mt-auto">
                         <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                                <img src="@(string.IsNullOrEmpty(Model.AppUser.ImageUrl) ? "https://ui-avatars.com/api/?name=" + Model.AppUser.NameSurname : Model.AppUser.ImageUrl)"
-                                     class="rounded-circle border" width="60" height="60" style="object-fit: cover;">
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h5 class="mb-0 fw-bold">@Model.AppUser.Username</h5>
+                            <img src="@(string.IsNullOrEmpty(Model.AppUser.ImageUrl) ? "https://ui-avatars.com/api/?name=" + Model.AppUser.NameSurname : Model.AppUser.ImageUrl)"
+                                 class="rounded-circle border" width="50" height="50" style="object-fit: cover;">
 
-                                @if (!string.IsNullOrEmpty(Model.AppUser.PhoneNumber))
-                                {
-                                    <small class="text-success"><i class="fas fa-phone-alt"></i> @Model.AppUser.PhoneNumber</small>
-                                }
+                            <div class="ms-3 flex-grow-1">
+                                <div class="small text-muted text-uppercase fw-bold">Satıcı</div>
+                                <div class="fw-bold text-dark">@Model.AppUser.NameSurname</div>
                             </div>
+
+                            @if (!string.IsNullOrEmpty(Model.AppUser.PhoneNumber))
+                            {
+                                <a href="tel:@Model.AppUser.PhoneNumber" class="btn btn-sm btn-light border rounded-pill text-dark">
+                                    <i class="fas fa-phone-alt me-1 text-success"></i> Ara
+                                </a>
+                            }
                         </div>
-
-                        @if (!string.IsNullOrEmpty(Model.AppUser.About))
-                        {
-                            <hr class="my-2" />
-                            <p class="small text-muted mb-0 fst-italic">"@Model.AppUser.About"</p>
-                        }
                     </div>
 
-
-                    <div class="action">
+                    <div class="action-area">
                         @if (User.Identity.IsAuthenticated && Model.AppUser.Username == User.Identity.Name)
                         {
-                            <div class="d-grid gap-2">
-                                <a href="/Product/EditProduct/@Model.ProductID" class="btn btn-warning btn-lg">
-                                    <i class="fas fa-edit"></i> İlanı Düzenle
-                                </a>
-                                <a href="/Product/DeleteProduct/@Model.ProductID"
-                                   onclick="return confirm('Silmek istediğine emin misin?')"
-                                   class="btn btn-outline-danger btn-lg">
-                                    <i class="fas fa-trash"></i> İlanı Sil
-                                </a>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <a href="/Product/EditProduct/@Model.ProductID" class="btn btn-garage-outline w-100">
+                                        <i class="fas fa-edit me-1"></i> Düzenle
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="/Product/DeleteProduct/@Model.ProductID"
+                                       onclick="return confirm('Silmek istediğine emin misin?')"
+                                       class="btn btn-outline-danger w-100 py-2 fw-bold" style="border-width:2px; height:100%;">
+                                        <i class="fas fa-trash me-1"></i> Sil
+                                    </a>
+                                </div>
                             </div>
                         }
                         else
                         {
                             @if (Model.IsSold)
                             {
-                                <button class="btn btn-danger btn-lg w-100 disabled" type="button">BU ÜRÜN SATILDI</button>
+                                <button class="btn btn-secondary w-100 py-3 fw-bold disabled" type="button">
+                                    <i class="fas fa-lock me-2"></i> BU ÜRÜN SATILDI
+                                </button>
                             }
                             else
                             {
-                                <div class="d-grid gap-2">
-                                    <a href="#yorumlar" class="btn btn-primary btn-lg"><i class="fas fa-comment-dots"></i> Satıcıya Soru Sor</a>
-                                    <button type="button" class="btn btn-outline-success btn-lg" data-bs-toggle="modal" data-bs-target="#offerModal">
-                                        <i class="fas fa-tag"></i> Teklif Ver
-                                    </button>
+                                <div class="row g-2">
+                                    <div class="col-12 mb-2">
+                                        <button type="button" class="btn btn-garage-primary w-100 py-3" data-bs-toggle="modal" data-bs-target="#offerModal">
+                                            <i class="fas fa-hand-holding-usd me-2"></i> Teklif Ver
+                                        </button>
+                                    </div>
+                                    <div class="col-12">
+                                        <a href="#yorumlar" class="btn btn-light w-100 border py-2 text-muted fw-bold">
+                                            <i class="fas fa-comment-dots me-2"></i> Satıcıya Soru Sor
+                                        </a>
+                                    </div>
                                 </div>
                             }
                         }
@@ -113,59 +217,63 @@
 
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="row mt-4 mb-4">
-                <div class="col-12 px-5">
-                    <hr />
-                    <h3 id="yorumlar" class="fw-bold mb-4">Ürün Soru-Cevap</h3>
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto">
+            <h4 id="yorumlar" class="fw-bold mb-4 ps-3 border-start border-4 border-warning">Soru & Cevap</h4>
 
-                    @await Html.PartialAsync("~/Views/ProductComment/CommentListByProduct.cshtml", Model.ProductComments ?? new List<EntityLayer.Concrete.ProductComment>())
+            <div class="bg-white p-4 rounded-4 shadow-sm border">
+                @await Html.PartialAsync("~/Views/ProductComment/CommentListByProduct.cshtml", Model.ProductComments ?? new List<EntityLayer.Concrete.ProductComment>())
 
-                    <hr class="my-4" />
+                <hr class="my-4" />
 
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <div class="bg-light p-4 rounded border">
-                            @await Html.PartialAsync("~/Views/ProductComment/AddComment.cshtml")
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-warning text-center p-4">
-                            <h5>Bu ilana yorum yapmak için giriş yapmalısınız.</h5>
-                            <p>Yorumlarınız satıcı için değerlidir.</p>
-                            <a href="/Login/Index" class="btn btn-dark mt-2">Giriş Yap</a>
-                            <span class="mx-2">veya</span>
-                            <a href="/Register/Index" class="btn btn-outline-dark mt-2">Kayıt Ol</a>
-                        </div>
-                    }
-
-                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="bg-light p-3 rounded-3">
+                        @await Html.PartialAsync("~/Views/ProductComment/AddComment.cshtml")
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-3">
+                        <p class="text-muted mb-2">Satıcıya soru sormak için giriş yapmalısınız.</p>
+                        <a href="/Login/Index" class="btn btn-sm btn-dark px-4">Giriş Yap</a>
+                    </div>
+                }
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="offerModal" tabindex="-1" aria-labelledby="offerModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="offerModalLabel">Teklif Ver</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+    <div class="modal fade" id="offerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-tag text-warning me-2"></i>Teklif Yap</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/Product/MakeOffer" method="post">
-                    <div class="modal-body">
+                    <div class="modal-body p-4">
                         <input type="hidden" name="id" value="@Model.ProductID" />
 
-                        <p><strong>@Model.Title</strong> ürünü için teklifiniz nedir?</p>
+                        <div class="text-center mb-3">
+                            <p class="text-muted mb-1">Ürün:</p>
+                            <h5 class="fw-bold">@Model.Title</h5>
+                            <p class="text-primary fw-bold">Şu anki Fiyat: @Model.Price ₺</p>
+                        </div>
 
-                        <div class="mb-3">
-                            <label for="offerPrice" class="col-form-label">Teklif Fiyatı (₺):</label>
-                            <input type="number" class="form-control" id="offerPrice" name="OfferPrice" required min="1">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="offerPrice" name="OfferPrice" required min="1" placeholder="Teklifiniz">
+                            <label for="offerPrice">Teklifiniz (₺)</label>
+                        </div>
+                        <div class="alert alert-light border small text-muted">
+                            <i class="fas fa-info-circle me-1"></i> Teklifiniz satıcıya iletilecektir. Kabul edilirse bildirim alacaksınız.
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                        <button type="submit" class="btn btn-success">Teklifi Gönder</button>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-garage-primary px-4">Gönder</button>
                     </div>
                 </form>
             </div>
