@@ -5,63 +5,132 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container-fluid mt-5">
-    <div class="row mb-4">
+<style>
+    .dashboard-card {
+        border: none;
+        border-radius: 12px;
+        background-color: #fff;
+        transition: transform 0.2s;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+    }
+
+    .bg-garage-dark {
+        background-color: #1c1c1c;
+        color: #fff;
+    }
+
+    .bg-garage-yellow {
+        background-color: #FFD700;
+        color: #1c1c1c;
+    }
+
+    .table-header-custom {
+        background-color: #1c1c1c;
+        color: #FFD700;
+    }
+
+    .list-group-item {
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        border-bottom: 1px solid #f0f0f0;
+    }
+</style>
+
+<div class="container-fluid py-4">
+
+    <div class="row mb-4 align-items-center">
         <div class="col-md-12">
-            <h2>Garage Yönetim Paneli</h2>
-            <hr />
+            <h3 class="fw-bold text-dark"><i class="fas fa-gauge-high me-2 text-warning"></i>Yönetim Paneli</h3>
+            <p class="text-muted">Garage platformu genel durum özeti</p>
         </div>
     </div>
 
     <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card text-white bg-primary mb-3 shadow">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-comment-dollar"></i> Toplam İlan</h5>
-                    <p class="card-text display-4">@Model.TotalProducts</p>
+        <div class="col-md-6 col-xl-6 mb-3">
+            <div class="dashboard-card p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-1 fw-bold text-uppercase small">Toplam İlan</p>
+                        <h2 class="mb-0 fw-bold text-dark">@Model.TotalProducts</h2>
+                    </div>
+                    <div class="stat-icon bg-garage-yellow shadow-sm">
+                        <i class="fas fa-shop"></i>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card text-white bg-success mb-3 shadow">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-list"></i> Kategori Sayısı</h5>
-                    <p class="card-text display-4">@Model.TotalCategories</p>
+
+        <div class="col-md-6 col-xl-6 mb-3">
+            <div class="dashboard-card p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-1 fw-bold text-uppercase small">Aktif Kategoriler</p>
+                        <h2 class="mb-0 fw-bold text-dark">@Model.TotalCategories</h2>
+                    </div>
+                    <div class="stat-icon bg-garage-dark shadow-sm">
+                        <i class="fas fa-layer-group text-warning"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card shadow h-100">
-                <div class="card-header bg-dark text-white">
-                    Kategori Dağılımı
+    <div class="row mb-4">
+
+        <div class="col-lg-7 mb-4">
+            <div class="dashboard-card h-100">
+                <div class="card-header bg-white border-0 pt-4 px-4 pb-0">
+                    <h5 class="fw-bold mb-0">Kategori Dağılımı</h5>
                 </div>
                 <div class="card-body">
-                    <canvas id="categoryChart" style="max-height:250px"></canvas>
+                    <div style="height: 300px; position: relative;">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card shadow h-100">
-                <div class="card-header bg-dark text-white">
-                    Hızlı Kategori Yönetimi
+        <div class="col-lg-5 mb-4">
+            <div class="dashboard-card h-100">
+                <div class="card-header bg-white border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold mb-0">Hızlı Kategori Ekle</h5>
+                    <span class="badge bg-light text-dark border">Yönet</span>
                 </div>
                 <div class="card-body">
-                    <form action="/Admin/AddCategory" method="post" class="d-flex mb-3">
-                        <input type="text" name="CategoryName" class="form-control me-2" placeholder="Yeni Kategori Adı..." required>
-                        <button type="submit" class="btn btn-success">Ekle</button>
+                    <form action="/Admin/AddCategory" method="post" class="d-flex mb-4 gap-2">
+                        <input type="text" name="CategoryName" class="form-control" placeholder="Yeni kategori adı..." required style="background: #f8f9fa;">
+                        <button type="submit" class="btn btn-warning fw-bold px-3"><i class="fas fa-plus"></i></button>
                     </form>
 
-                    <div style="max-height: 250px; overflow-y: auto;">
-                        <ul class="list-group">
+                    <h6 class="text-muted small fw-bold text-uppercase mb-3">Mevcut Kategoriler</h6>
+
+                    <div style="max-height: 200px; overflow-y: auto; padding-right: 5px;">
+                        <ul class="list-group list-group-flush">
                             @foreach (var cat in Model.AllCategories)
                             {
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    @cat.CategoryName
-                                    <a href="/Admin/DeleteCategory/@cat.CategoryID" class="btn btn-outline-danger btn-sm" onclick="return confirm('Bu kategoriyi silmek istediğine emin misin?')">Sil</a>
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-2">
+                                    <span class="fw-medium"><i class="fas fa-caret-right text-warning me-2"></i>@cat.CategoryName</span>
+                                    <a href="/Admin/DeleteCategory/@cat.CategoryID"
+                                       class="btn btn-light btn-sm text-danger border"
+                                       onclick="return confirm('Bu kategoriyi silmek istediğine emin misin?')"
+                                       title="Sil">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
                                 </li>
                             }
                         </ul>
@@ -71,85 +140,96 @@
         </div>
     </div>
 
-    <div class="row mt-5 mb-5">
-        <div class="col-md-12">
-            <div class="card shadow">
+    <div class="row">
+        <div class="col-12">
+            <div class="dashboard-card overflow-hidden">
 
-                <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center p-3">
-                    <h5 class="mb-0">Son Eklenen İlanlar (Ürünler)</h5>
+                <div class="card-header bg-white border-0 p-4 pb-0 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                    <h5 class="fw-bold mb-0">Son Eklenen İlanlar</h5>
 
-                    <form method="get" action="/Admin/Index" class="d-flex" style="max-width: 350px;">
-                        <input type="text" name="search" class="form-control form-control-sm me-2"
-                               placeholder="Ürün veya Satıcı Ara..."
-                               value="@Context.Request.Query["search"]">
-
-                        <button class="btn btn-light btn-sm fw-bold" type="submit">Ara</button>
-
+                    <form method="get" action="/Admin/Index" class="d-flex">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-search text-muted"></i></span>
+                            <input type="text" name="search" class="form-control bg-light border-start-0 ps-0"
+                                   placeholder="İlan veya Satıcı ara..."
+                                   value="@Context.Request.Query["search"]">
+                            <button class="btn btn-dark" type="submit">Ara</button>
+                        </div>
                         @if (!string.IsNullOrEmpty(Context.Request.Query["search"]))
                         {
-                            <a href="/Admin/Index" class="btn btn-danger btn-sm ms-1">X</a>
+                            <a href="/Admin/Index" class="btn btn-outline-danger ms-2"><i class="fas fa-times"></i></a>
                         }
                     </form>
                 </div>
 
-                <div class="card-body p-0">
-                    <table class="table table-hover table-striped mb-0">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Ürün Başlığı</th>
-                                <th>Fiyat</th>
-                                <th>Kategori</th>
-                                <th>Satıcı</th>
-                                <th>İşlem</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.LastProducts.Count == 0)
-                            {
+                <div class="card-body p-0 mt-3">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-header-custom">
                                 <tr>
-                                    <td colspan="6" class="text-center p-4">
-                                        Aradığınız kriterlere uygun sonuç bulunamadı.
-                                    </td>
+                                    <th class="ps-4 py-3">#ID</th>
+                                    <th class="py-3">İlan Başlığı</th>
+                                    <th class="py-3">Fiyat</th>
+                                    <th class="py-3">Kategori</th>
+                                    <th class="py-3">Satıcı</th>
+                                    <th class="py-3 text-end pe-4">İşlemler</th>
                                 </tr>
-                            }
+                            </thead>
+                            <tbody>
+                                @if (Model.LastProducts.Count == 0)
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center py-5 text-muted">
+                                            <i class="fas fa-inbox fa-2x mb-3 d-block"></i>
+                                            Kayıtlı ilan bulunamadı.
+                                        </td>
+                                    </tr>
+                                }
 
-                            @foreach (var item in Model.LastProducts)
-                            {
-                                <tr>
-                                    <td>@item.ProductID</td>
-                                    <td>@item.Title</td>
-                                    <td>@item.Price ₺</td>
-
-                                    <td>
-                                        @if (item.Category != null)
-                                        {
-                                            <span class="badge bg-info text-dark">@item.Category.CategoryName</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">-</span>
-                                        }
-                                    </td>
-
-                                    <td>
-                                        @if (item.AppUser != null)
-                                        {
-                                            <span class="fw-bold">@item.AppUser.NameSurname</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted fst-italic">Bilinmiyor</span>
-                                        }
-                                    </td>
-
-                                    <td>
-                                        <a href="/Admin/DeleteProduct/@item.ProductID" class="btn btn-danger btn-sm" onclick="return confirm('İlanı silmek istiyor musun?')">Sil</a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                @foreach (var item in Model.LastProducts)
+                                {
+                                    <tr>
+                                        <td class="ps-4 fw-bold text-muted">#@item.ProductID</td>
+                                        <td>
+                                            <span class="fw-bold text-dark">@item.Title</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-light text-dark border fw-bold px-3 py-2">@item.Price ₺</span>
+                                        </td>
+                                        <td>
+                                            @if (item.Category != null)
+                                            {
+                                                <span class="badge bg-warning text-dark">@item.Category.CategoryName</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">-</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.AppUser != null)
+                                            {
+                                                <div class="d-flex align-items-center">
+                                                    <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 30px; height: 30px; font-size: 12px;">
+                                                        @item.AppUser.NameSurname.Substring(0, 1)
+                                                    </div>
+                                                    <span class="small fw-bold">@item.AppUser.NameSurname</span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted small">Bilinmiyor</span>
+                                            }
+                                        </td>
+                                        <td class="text-end pe-4">
+                                            <a href="/Product/ProductDetails/@item.ProductID" class="btn btn-sm btn-light text-primary me-1" target="_blank" title="Görüntüle"><i class="fas fa-eye"></i></a>
+                                            <a href="/Admin/DeleteProduct/@item.ProductID" class="btn btn-sm btn-light text-danger" onclick="return confirm('Bu ilanı silmek istediğinize emin misiniz?')" title="Sil"><i class="fas fa-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -170,13 +250,34 @@
                 label: 'İlan Sayısı',
                 data: counts,
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.8)', 'rgba(54, 162, 235, 0.8)',
-                    'rgba(255, 206, 86, 0.8)', 'rgba(75, 192, 192, 0.8)',
-                    'rgba(153, 102, 255, 0.8)', 'rgba(255, 159, 64, 0.8)'
+                    '#FFD700', 
+                    '#1c1c1c', 
+                    '#555555', 
+                    '#aaaaaa', 
+                    '#e6c200',
+                    '#333333' 
                 ],
-                borderWidth: 1
+                borderColor: '#ffffff',
+                borderWidth: 2,
+                hoverOffset: 4
             }]
         },
-        options: { responsive: true, maintainAspectRatio: false }
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20,
+                        font: { family: "'Poppins', sans-serif", size: 12 }
+                    }
+                }
+            },
+            layout: {
+                padding: 20
+            }
+        }
     });
 </script>

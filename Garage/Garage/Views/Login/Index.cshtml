@@ -3,44 +3,175 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Giriş Yap - Garage</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --garage-black: #000000;
+            --garage-dark: #1c1c1c;
+            --garage-yellow: #FFD700;
+            --garage-text: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--garage-black);
+            background: radial-gradient(circle at center, #2b2b2b 0%, #000000 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--garage-text);
+        }
+
+        .login-card {
+            background-color: var(--garage-dark);
+            border: 1px solid #333;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .brand-icon {
+            font-size: 3rem;
+            color: var(--garage-black);
+            background: var(--garage-yellow);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .form-control {
+            background-color: #2c2c2c;
+            border: 1px solid #444;
+            color: #fff;
+        }
+
+            .form-control::placeholder {
+                color: #666;
+            }
+
+            .form-control:focus {
+                background-color: #2c2c2c;
+                border-color: var(--garage-yellow);
+                color: #fff;
+                box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25);
+            }
+
+        .form-floating > label {
+            color: #aaa;
+        }
+
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label {
+            color: var(--garage-yellow);
+            opacity: 1;
+        }
+
+        .form-check-input:checked {
+            background-color: cornflowerblue;
+            border-color: var(--garage-yellow);
+        }
+
+        .form-check-input:focus {
+            border-color: var(--garage-yellow);
+            box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25);
+        }
+
+        .btn-custom {
+            background-color: var(--garage-yellow);
+            color: var(--garage-black);
+            padding: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+            .btn-custom:hover {
+                background-color: #e6c200;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            }
+
+        a.text-yellow {
+            color: var(--garage-yellow) !important;
+            transition: color 0.3s;
+        }
+
+            a.text-yellow:hover {
+                color: #fff !important;
+            }
+
+        .card-footer {
+            background-color: #141414;
+            border-top: 1px solid #333;
+        }
+
+        .text-white-header {
+            color: #fff;
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-    <div class="container mt-5">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-5">
-                <div class="card shadow">
-                    <div class="card-header bg-success text-white text-center py-3">
-                        <h3 class="mb-0">Giriş Yap</h3>
+            <div class="col-md-5 col-lg-4">
+
+                <div class="card login-card p-3">
+                    <div class="text-center mb-4 mt-2">
+                        <div class="brand-icon shadow-sm">
+                            <i class="bi bi-bag-fill"></i>
+                        </div>
+                        <h4 class="mt-3 fw-bold text-white-header">Hoş Geldiniz</h4>
+                        <p class="text-muted small">Garage hesabınıza giriş yapın</p>
                     </div>
-                    <div class="card-body p-4">
 
+                    <div class="card-body pt-0">
                         <form method="post">
-                            <div class="mb-3">
-                                <label class="form-label">E-Posta Adresi</label>
-                                <input type="email" name="Mail" class="form-control" required placeholder="ornek@mail.com" />
+                            <div class="form-floating mb-3">
+                                <input type="email" name="Mail" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+                                <label for="floatingInput"><i class="bi bi-envelope me-1"></i> E-Posta Adresi</label>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Şifre</label>
-                                <input type="password" name="Password" class="form-control" required />
+                            <div class="form-floating mb-4">
+                                <input type="password" name="Password" class="form-control" id="floatingPassword" placeholder="Password" required>
+                                <label for="floatingPassword"><i class="bi bi-lock me-1"></i> Şifre</label>
                             </div>
 
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-success btn-lg">Giriş Yap</button>
+                            <div class="d-flex justify-content-between align-items-center mb-4 small">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                                    <label class="form-check-label text-white" for="rememberMe">Beni Hatırla</label>
+                                </div>
+                                <a href="#" class="text-decoration-none text-yellow fw-bold">Şifremi Unuttum?</a>
+                            </div>
+
+                            <div class="d-grid">
+                                <button class="btn btn-custom btn-lg" type="submit">Giriş Yap</button>
                             </div>
                         </form>
-
                     </div>
+
                     <div class="card-footer text-center py-3">
-                        <small>Hesabın yok mu? <a href="/Register/Index" class="fw-bold text-success">Kayıt Ol</a></small>
+                        <small class="text-white">Hesabın yok mu? <a href="/Register/Index" class="fw-bold text-yellow text-decoration-none">Hemen Kayıt Ol</a></small>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
