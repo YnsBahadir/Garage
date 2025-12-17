@@ -4,7 +4,7 @@
   <h3>Premium Second-Hand E-Commerce Platform</h3>
   
   <p>
-    <b>C2C Ticaret</b> • <b>Teklif Sistemi</b> • <b>Soru-Cevap Etkileşimi</b>
+    <b>C2C Trade</b> • <b>Offer System</b> • <b>Question-Answer Interaction</b>
   </p>
 
   <p>
