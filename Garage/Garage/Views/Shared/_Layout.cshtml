@@ -1,12 +1,4 @@
 ﻿@{
-    // 1. ADIM: ŞEHİR VERİSİ VE SIRALAMA MANTIĞI (Aynen korundu)
-    var buyuksehirler = new List<string> {
-        "Adana", "Ankara", "Antalya", "Aydın", "Balıkesir", "Bursa", "Denizli", "Diyarbakır",
-        "Erzurum", "Eskişehir", "Gaziantep", "Hatay", "İstanbul", "İzmir", "Kahramanmaraş",
-        "Kayseri", "Kocaeli", "Konya", "Malatya", "Manisa", "Mardin", "Mersin", "Muğla",
-        "Ordu", "Sakarya", "Samsun", "Şanlıurfa", "Tekirdağ", "Trabzon", "Van"
-    };
-
     var tumIller = new List<string> {
         "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Aksaray", "Amasya", "Ankara", "Antalya", "Ardahan", "Artvin",
         "Aydın", "Balıkesir", "Bartın", "Batman", "Bayburt", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa",
@@ -18,7 +10,7 @@
         "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Uşak", "Van", "Yalova", "Yozgat", "Zonguldak"
     };
 
-    var siraliSehirler = buyuksehirler.Concat(tumIller.Except(buyuksehirler).OrderBy(x => x)).ToList();
+    var siraliSehirler = tumIller.OrderBy(x => x).ToList();
 }
 
 <!DOCTYPE html>
@@ -42,13 +34,12 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa; /* İçerik okunabilirliği için gövde açık renk */
+            background-color: #f8f9fa;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        /* Navbar Özelleştirme */
         .navbar-garage {
             background-color: var(--garage-black);
             border-bottom: 3px solid var(--garage-yellow);
@@ -65,7 +56,6 @@
                 color: var(--garage-yellow);
             }
 
-        /* Arama Alanı Tasarımı */
         .search-container {
             background-color: #fff;
             border-radius: 8px;
@@ -102,12 +92,12 @@
                 background-color: #e6c200;
             }
 
-        /* Şehir Sonuç Listesi */
         #cityResultList {
             z-index: 1050;
             max-height: 300px;
             overflow-y: auto;
             border-top: 1px solid #eee;
+            background-color: white;
         }
 
             #cityResultList .list-group-item {
@@ -123,7 +113,6 @@
                     font-weight: 600;
                 }
 
-        /* Butonlar */
         .btn-ilan-ver {
             background-color: var(--garage-yellow);
             color: var(--garage-black);
@@ -139,11 +128,10 @@
                 transform: translateY(-2px);
             }
 
-        /* Footer */
         .garage-footer {
             background-color: var(--garage-dark);
             color: #aaa;
-            margin-top: auto; /* Footer'ı en alta itmek için */
+            margin-top: auto;
             border-top: 1px solid #333;
         }
 
@@ -182,20 +170,22 @@
                         <span class="position-absolute top-50 start-0 translate-middle-y ms-2 text-muted" style="z-index: 5;">
                             <i class="fas fa-map-marker-alt"></i>
                         </span>
+
                         <input type="text"
+                               name="city"
                                id="citySearchInput"
                                class="form-control search-input-main ps-4"
                                placeholder="Şehir"
                                autocomplete="off"
                                value="@Context.Request.Query["city"]">
 
-                        <input type="hidden" name="city" id="hiddenCityInput" value="@Context.Request.Query["city"]">
-
                         <div id="cityResultList" class="list-group position-absolute w-100 shadow rounded-bottom mt-1" style="display:none;">
                         </div>
                     </div>
 
-                    <button class="btn btn-search" type="submit">BUL</button>
+                    <button class="btn btn-search" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
             </form>
 
@@ -270,22 +260,26 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+
             var cities = @Html.Raw(Json.Serialize(siraliSehirler));
+
             const cityInput = document.getElementById('citySearchInput');
-            const hiddenInput = document.getElementById('hiddenCityInput');
+
             const resultsBox = document.getElementById('cityResultList');
 
-            if(cityInput) { // Hata almamak için kontrol
+            if(cityInput && resultsBox) {
+
                 function showResults(filteredCities) {
                     resultsBox.innerHTML = '';
+
                     if (filteredCities.length > 0) {
                         filteredCities.forEach(city => {
-                            const item = document.createElement('div'); // div yaptım, a etiketi form submit edebilir
+                            const item = document.createElement('div');
                             item.classList.add('list-group-item', 'list-group-item-action');
                             item.textContent = city;
+
                             item.onclick = function () {
                                 cityInput.value = city;
-                                hiddenInput.value = city;
                                 resultsBox.style.display = 'none';
                             };
                             resultsBox.appendChild(item);
@@ -296,19 +290,23 @@
                     }
                 }
 
-                cityInput.addEventListener('input', function() {
-                    const inputText = this.value.toLocaleLowerCase('tr').trim();
+                function handleSearch() {
+                    const inputText = cityInput.value.toLocaleLowerCase('tr').trim();
+
                     if(inputText === "") {
-                        hiddenInput.value = "";
-                        resultsBox.style.display = 'none';
-                        return;
+                        showResults(cities);
                     }
-                    const filtered = cities.filter(city => {
-                        const cityLower = city.toLocaleLowerCase('tr');
-                        return cityLower.includes(inputText) || inputText.includes(cityLower);
-                    });
-                    showResults(filtered);
-                });
+                    else {
+                        const filtered = cities.filter(city => {
+                            return city.toLocaleLowerCase('tr').includes(inputText);
+                        });
+                        showResults(filtered);
+                    }
+                }
+
+                cityInput.addEventListener('input', handleSearch);
+                cityInput.addEventListener('focus', handleSearch);
+                cityInput.addEventListener('click', handleSearch);
 
                 document.addEventListener('click', function(e) {
                     if (!cityInput.contains(e.target) && !resultsBox.contains(e.target)) {
