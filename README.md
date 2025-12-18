@@ -87,13 +87,15 @@ This project was developed using the following technologies:
 </table>
 ## 📸 Screenshots
 
-Projenin arayüzünden görünümler:
+Views from the project interface:
 
 <div align="center">
   
-| 🏠 Home Page | 🔍 Product Details | ⚙️ Admin Panel |
+| 🏠 Home | 🔍 Product Details | ⚙️ My listings |
 | :---: | :---: | :---: |
-| <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011253.png?raw=true" width="250" /> | <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011436.png?raw=true" width="250" /> | <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-17%20011342.png?raw=true" width="250" /> |
+| <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-18%20231705.png" width="300" /> | <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-18%20231835.png" width="300" /> | <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-18%20231904.png" width="300" />|
+| 🔍 Creating New Listings | ⚙️ Account Information | ⚙️ Admin Panel |
+| <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-18%20231924.png" width="300" /> | <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-18%20231948.png" width="300" /> | <img src="https://github.com/YnsBahadir/Garage/blob/main/Picture/Screenshot%202025-12-18%20232051.png" width="300" /> |
 
 </div>
 
